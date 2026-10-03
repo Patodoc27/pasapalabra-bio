@@ -839,7 +839,14 @@ function leerConsigna(){
   const it=items[idx];if(!it)return;
   const cons=(it.m===E?"Empieza por la ":"Contiene la ")+it.letra;
   const txt=(it.d||"").replace(/<[^>]+>/g," ");
-  leer(cons+". "+txt);
+  leer(cons);
+  luego(()=>{   // pausa de ~2 segundos entre la consigna y la definición
+    if(!lectura||!soportaVoz||items[idx]!==it)return;
+    const u=new SpeechSynthesisUtterance(txt);
+    if(vozElegida){u.voice=vozElegida;u.lang=vozElegida.lang}else u.lang="es-419";
+    u.rate=.96;u.pitch=1.1;
+    speechSynthesis.speak(u);
+  },2200);
 }
 
 const mostrar=id=>{document.querySelectorAll(".pantalla").forEach(p=>p.classList.remove("activa"));$(id).classList.add("activa");
@@ -1096,7 +1103,7 @@ function jugadaBot(){
   luego(()=>{
     if(pasa){rachaBot=0;resolverBot("pasa");return;}
     tipear(texto,()=>luego(()=>resolverBot(acierta?"ok":"mal"),450));
-  },1400+Math.random()*1600);
+  },6000+Math.random()*1200);   // Boti espera ~6 segundos: el estudiante alcanza a leer la consigna
 }
 function erroneaBot(it){
   const otras=TODAS.filter(p=>p!==it.p&&!casiAcepta(it,p));
