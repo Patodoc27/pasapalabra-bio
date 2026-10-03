@@ -87,4 +87,8 @@
 | S | Empieza | SISTEMA DE ÓRGANOS | sistema de organos, sistemas de órganos | órganos trabajando en conjunto | Conjunto de órganos que trabajan coordinadamente para cumplir una función común. (Tres palabras.) |
 | T | Empieza | TEJIDO | tejidos | células semejantes cooperando | Conjunto de células semejantes que cooperan para cumplir una función específica. |
 
-Total: 82 entradas en 24 letras.
+| C | Empieza | CARBONO |  | el esqueleto de las biomoléculas | Elemento químico que forma el esqueleto de las biomoléculas, porque sus átomos se unen entre sí formando cadenas. |
+| H | Empieza | HIDRÓGENO | hidrogeno | el elemento más liviano | Elemento químico más liviano que existe, presente en el agua y en las biomoléculas. |
+| O | Empieza | OXÍGENO | oxigeno | el gas de la respiración celular | Elemento químico presente en el agua y en las biomoléculas, que muchos seres vivos usan en la respiración celular. |
+
+Total: 85 entradas en 24 letras.
