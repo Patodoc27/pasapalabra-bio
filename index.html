@@ -928,7 +928,7 @@ async function rankingActualizar(){
   try{rankingPintar(await rankingTraer(5));}catch(e){}
 }
 function rankingEnviar(){
-  if(!rankingOn())return Promise.resolve();
+  if(!rankingOn()||sinReloj)return Promise.resolve();   // modo práctica: no se asienta en el ranking
   const js=(conBot?[0]:[0,1]).filter(j=>nombres[j]&&nombres[j]!==BOT.nombre);
   return Promise.allSettled(js.map(j=>fetch(RANKING_URL,{method:"POST",
     headers:{"Content-Type":"text/plain"},
