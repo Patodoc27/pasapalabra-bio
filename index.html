@@ -379,6 +379,7 @@ body.con-letras .letras-fondo{display:block}
 .avs img{width:42px;height:42px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;opacity:.72;transition:.16s;object-fit:cover;padding:0}
 .avs img:hover{opacity:1;transform:translateY(-2px)}
 .avs img.sel{border-color:var(--c,var(--turquesa));opacity:1;transform:scale(1.13);box-shadow:0 0 0 3px color-mix(in srgb,var(--c,var(--turquesa)) 25%,transparent)}
+.avs img.off{opacity:.22;filter:grayscale(.75);pointer-events:none;transform:none}
 .avs.off{opacity:.4;pointer-events:none}
 .ava-p{width:30px;height:30px;border-radius:50%;object-fit:cover;vertical-align:middle;border:2px solid currentColor;margin-right:7px}
 .f-rank:nth-child(odd){background:var(--superficie)}
@@ -484,6 +485,7 @@ body.con-letras .letras-fondo{display:block}
     </div>
     <div class="ranking" id="ranking-inicio" style="display:none">
       <h3>🏆 Mejores del cole</h3>
+      <p style="color:var(--gris);font-size:12.5px;margin:2px 0 8px">Suma los aciertos de todas las partidas jugadas.</p>
       <div id="ranking-inicio-lista"></div>
     </div>
     <p class="aviso" id="aviso" role="status"></p>
@@ -926,16 +928,24 @@ $("chips-rival").addEventListener("click",e=>{const b=e.target.closest(".chip");
   $("lab2").textContent=conBot?"Rival":"Jugador 2";
   $("n2").value=conBot?BOT.nombre:"";$("n2").disabled=conBot;
   if(conBot)avatares[1]=AVATAR_BOTI;
+  else if(avatares[1]===AVATAR_BOTI)avatares[1]=(avatares[0]+1)%6;
+  pintarAvs();
   $("avs-1").classList.toggle("off",conBot);});
 $("chips-sec").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;
   [...$("chips-sec").children].forEach(c=>c.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");
   seccion=b.dataset.sec;});
-/* pickers de avatar: los 6 estudiantes se eligen (el último de AVATARES es el robot de Boti) */
+/* pickers de avatar: los 6 estudiantes se eligen (el último de AVATARES es el robot de Boti);
+   un avatar elegido por un jugador queda bloqueado para el otro */
+function pintarAvs(){
+  [0,1].forEach(j=>{const cont=$("avs-"+j);
+    [...cont.children].forEach((x,k)=>{
+      x.classList.toggle("sel",k===avatares[j]);
+      x.classList.toggle("off",k===avatares[1-j]);});});}
 [0,1].forEach(j=>{const cont=$("avs-"+j);
   AVATARES.slice(0,-1).forEach((a,i)=>{const im=document.createElement("img");im.src=a.img;im.alt="Avatar "+(i+1);
-    if(i===avatares[j])im.classList.add("sel");
-    im.addEventListener("click",()=>{avatares[j]=i;[...cont.children].forEach((x,k)=>x.classList.toggle("sel",k===i));});
+    im.addEventListener("click",()=>{if(i===avatares[1-j])return;avatares[j]=i;pintarAvs();});
     cont.appendChild(im);});});
+pintarAvs();
 $("chips-tiempo").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;
   [...$("chips-tiempo").children].forEach(c=>c.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");
   sinReloj=(+b.dataset.seg===0);seg=sinReloj?0:+b.dataset.seg;});
