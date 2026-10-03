@@ -216,11 +216,14 @@ input::placeholder{color:var(--placeholder)}
 .tiempo{font-family:var(--display);font-weight:800;font-size:27px;font-variant-numeric:tabular-nums;min-width:80px;text-align:right;color:var(--tinta)}
 .tiempo.urgente{color:var(--parina);animation:late 1s steps(2,end) infinite}
 @keyframes late{50%{opacity:.35}}
-.icobtn{background:var(--superficie);border:1.5px solid var(--borde);border-radius:12px;width:42px;height:42px;font-size:17px;cursor:pointer;color:var(--gris);transition:.15s}
-.icobtn:hover{border-color:var(--uva);color:var(--uva)}
-.icobtn.on{border-color:var(--turquesa);color:var(--turquesa);box-shadow:0 0 0 3px color-mix(in srgb,var(--turquesa) 22%,transparent)}
+.icobtn{background:var(--superficie);border:2px solid var(--c,var(--borde));border-radius:14px;width:54px;height:54px;font-size:22px;cursor:pointer;color:var(--gris);transition:.15s;
+  background:color-mix(in srgb,var(--c,var(--borde)) 14%,var(--superficie))}
+.icobtn:hover{transform:translateY(-2px);box-shadow:0 8px 18px -8px color-mix(in srgb,var(--c,var(--uva)) 70%,transparent)}
+.icobtn.on{border-color:var(--c,var(--turquesa));box-shadow:0 0 0 4px color-mix(in srgb,var(--c,var(--turquesa)) 26%,transparent);
+  background:color-mix(in srgb,var(--c,var(--turquesa)) 30%,var(--superficie))}
+#btn-tema{--c:var(--uva)}#btn-son{--c:var(--marca)}#btn-voz{--c:var(--turquesa)}#btn-menu{--c:var(--parina)}
 .menu{position:relative}
-.menu-pop{position:absolute;right:0;top:48px;background:var(--menu-bg);border:1px solid var(--borde2);border-radius:14px;box-shadow:var(--sombra);padding:8px;display:none;z-index:20;min-width:200px}
+.menu-pop{position:absolute;right:0;top:62px;background:var(--menu-bg);border:1px solid var(--borde2);border-radius:14px;box-shadow:var(--sombra);padding:8px;display:none;z-index:20;min-width:200px}
 .menu-pop.abierto{display:block}
 .menu-pop button{display:block;width:100%;text-align:left;background:none;border:none;padding:11px 13px;border-radius:10px;font-family:var(--cuerpo);font-size:15px;color:var(--tinta);cursor:pointer}
 .menu-pop button:hover{background:var(--superficie)}
