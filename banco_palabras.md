@@ -69,7 +69,6 @@
 | U | Empieza | UNIFORMIDAD MOLECULAR | uniformidad | todos con las mismas biomoléculas | Que todos los seres vivos usen las mismas biomoléculas y el mismo ADN: una prueba del origen común. (Dos palabras.) |
 | U | Contiene | AUTÓTROFOS | autótrofo, autótrofa, autótrofas | fabrican su propia materia orgánica | Organismos que fabrican su propia materia orgánica a partir de materia inorgánica del ambiente. |
 | V | Empieza | VACUOLA CENTRAL | vacuola | organela que almacena agua y mantiene firme la célula | Organela con membrana que almacena agua y otras sustancias, mantiene firme la célula y digiere desechos. (Dos palabras.) |
-| X | Contiene | OXÍGENO |  | el gas que faltaba bajo la campana | Gas que se agotaba bajo la campana de Priestley y que la planta volvía a liberar. |
 | X | Contiene | ASEXUAL | reproducción asexual | un solo progenitor, sin células sexuales | Tipo de reproducción con un solo progenitor, sin unión de células reproductivas, donde los descendientes son numerosos y genéticamente idénticos a él. |
 | Y | Empieza | YUNGAS | yunga | la nuboselva salteña | Selva de montaña húmeda del este de Salta, también llamada nuboselva. |
 
@@ -91,4 +90,4 @@
 | H | Empieza | HIDRÓGENO | hidrogeno | el elemento más liviano | Elemento químico más liviano que existe, presente en el agua y en las biomoléculas. |
 | O | Empieza | OXÍGENO | oxigeno | el gas de la respiración celular | Elemento químico presente en el agua y en las biomoléculas, que muchos seres vivos usan en la respiración celular. |
 
-Total: 85 entradas en 24 letras.
+Total: 84 entradas en 24 letras.
