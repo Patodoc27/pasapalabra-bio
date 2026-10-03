@@ -846,7 +846,8 @@ $("btn-voz").addEventListener("click",()=>{
 function leerConsigna(){
   if(!jugando)return;
   const it=items[idx];if(!it)return;
-  const cons=(it.m===E?"Empieza por la ":"Contiene la ")+it.letra;
+  const NOMBRE_LETRA={A:"a",B:"be",C:"ce",D:"de",E:"e",F:"efe",G:"ge",H:"hache",I:"i",J:"jota",L:"ele",M:"eme",N:"ene","Ñ":"eñe",O:"o",P:"pe",Q:"cu",R:"ere",S:"ese",T:"te",U:"u",V:"uve",X:"equis",Y:"i griega"};
+  const cons=(it.m===E?"Empieza por la letra ":"Contiene la letra ")+(NOMBRE_LETRA[it.letra]||it.letra);
   const txt=(it.d||"").replace(/<[^>]+>/g," ");
   leer(cons);
   luego(()=>{   // pausa de ~2 segundos entre la consigna y la definición
