@@ -107,7 +107,7 @@ body:has(#p-inicio.activa){padding:clamp(20px,3.6vw,58px)}
 @media(max-width:1079px){.col-b{margin-top:4px}}
 .cabecera{display:flex;gap:clamp(22px,3.4vw,46px);align-items:center;justify-content:center;flex-wrap:wrap}
 .logo{width:clamp(140px,14.5vw,196px);aspect-ratio:1;border-radius:50%;flex:none;overflow:hidden;
-  transform:rotate(-5deg);
+  
   border:3px solid var(--turquesa);display:grid;place-items:center;
   background:var(--logo-fondo);
   box-shadow:0 0 0 7px color-mix(in srgb,var(--turquesa) 14%,transparent),0 0 44px color-mix(in srgb,var(--turquesa) 35%,transparent),var(--sombra)}
@@ -422,15 +422,15 @@ body.con-letras .letras-fondo{display:block}
     </div>
 
     <div class="col-a">
-    <details>
-      <summary>Ver reglas completas</summary>
+    <details open>
+      <summary>Reglas del juego</summary>
       <ul>
         <li>El turno pasa siempre al otro jugador, incluso cuando dicen Pasapalabra.</li>
         <li>La consigna aparece recién cuando el jugador de turno toca «Listo»: nadie ve la definición del otro.</li>
-        <li>Acierto en verde ✓, error en rosa ✕, pasapalabra en amarillo ↻.</li>
-        <li>Las letras amarillas vuelven y las responde quien tenga el turno en ese momento.</li>
+        <li>Cada acierto se pinta del color de quien respondió ✓, el error va en rosa ✕ y el pasapalabra en celeste ↻.</li>
+        <li>Las letras celestes vuelven y las responde quien tenga el turno en ese momento.</li>
         <li>El reloj se detiene mientras se pasan el teclado y mientras se lee el resultado de la jugada.</li>
-        <li>Se sortea uno de cinco roscos distintos y nunca sale dos veces seguidas el mismo.</li>
+        <li>Cada partida sortea palabras y letra de arranque: nunca se repite el mismo rosco ni el mismo arranque.</li>
         <li>Las palabras se escriben con tilde y con ñ. Si la palabra es la correcta pero está mal acentuada, avisa y se puede corregir sin perder la letra.</li>
         <li>En modo práctica, sin reloj, el primer error da una pista y una segunda oportunidad.</li>
       </ul>
@@ -449,10 +449,10 @@ body.con-letras .letras-fondo{display:block}
     <div class="jugadores">
       <div class="campo" style="--c:var(--j1)"><label for="n1">Jugador 1</label><input type="text" id="n1" placeholder="Nombre" maxlength="16" autocomplete="off"><div class="avs" id="avs-0"></div></div>
       <div class="campo" style="--c:var(--j2)"><label for="n2" id="lab2">Jugador 2</label><input type="text" id="n2" placeholder="Nombre" maxlength="16" autocomplete="off"><div class="avs" id="avs-1"></div></div>
-      <div class="campo" style="--c:var(--uva)"><label>Sección</label>
-        <div class="chips" id="chips-sec" style="margin-top:8px">
-          <button class="chip" type="button" data-sec="1° A" aria-pressed="true">1° A</button>
-          <button class="chip" type="button" data-sec="1° B" aria-pressed="false">1° B</button>
+      <div class="campo" style="--c:var(--uva);min-width:230px"><label>Sección</label>
+        <div class="chips" id="chips-sec" style="margin-top:8px;flex-direction:column;align-items:stretch">
+          <button class="chip" type="button" data-sec="1° A" aria-pressed="true" style="width:100%;padding:12px">1° A</button>
+          <button class="chip" type="button" data-sec="1° B" aria-pressed="false" style="width:100%;padding:12px">1° B</button>
         </div>
       </div>
     </div>
