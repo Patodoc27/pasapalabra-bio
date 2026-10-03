@@ -73,4 +73,18 @@
 | X | Contiene | ASEXUAL | reproducción asexual | un solo progenitor, sin células sexuales | Tipo de reproducción con un solo progenitor, sin unión de células reproductivas, donde los descendientes son numerosos y genéticamente idénticos a él. |
 | Y | Empieza | YUNGAS | yunga | la nuboselva salteña | Selva de montaña húmeda del este de Salta, también llamada nuboselva. |
 
-Total: 70 entradas en 24 letras.
+| A | Empieza | ÁTOMO | atomo | la unidad básica | Unidad básica de la materia. |
+| B | Empieza | BIOMA | biomas | muchos ecosistemas con el mismo clima | Conjunto de ecosistemas que comparten un mismo clima, vegetación y fauna característicos. |
+| B | Empieza | BIOSFERA |  | donde existe la vida en el planeta | Conjunto de todos los ecosistemas del planeta; es la parte de la Tierra donde existe vida. |
+| C | Empieza | COMUNIDAD | comunidades | todas las poblaciones juntas | Conjunto de poblaciones de distintas especies que viven e interactúan en un mismo lugar y tiempo. |
+| E | Empieza | ECOSISTEMA | ecosistemas | la comunidad más su ambiente | Conjunto formado por una comunidad y el ambiente físico con el que intercambia materia y energía. |
+| G | Contiene | ÓRGANO | órganos, organo, organos | varios tejidos coordinados | Conjunto de dos o más tejidos que trabajan coordinadamente para cumplir una función determinada. |
+| M | Empieza | MOLÉCULA | moléculas, molecula | átomos unidos por enlaces | Unión de dos o más átomos mediante enlaces químicos. |
+| M | Contiene | COMUNIDAD | comunidades | todas las poblaciones juntas | Conjunto de poblaciones de distintas especies que viven e interactúan en un mismo lugar y tiempo. |
+| O | Empieza | ORGANELA | organelas, orgánulo, organulo | la pieza con función propia dentro de la célula | Estructura con una función específica que se encuentra dentro de la célula. |
+| O | Empieza | ORGANISMO | organismos | el ser vivo individual | Ser vivo individual capaz de cumplir todas las funciones vitales. |
+| P | Empieza | POBLACIÓN | poblaciones | los de una especie en un lugar y tiempo | Conjunto de organismos de la misma especie que viven en un mismo lugar y tiempo. |
+| S | Empieza | SISTEMA DE ÓRGANOS | sistema de organos, sistemas de órganos | órganos trabajando en conjunto | Conjunto de órganos que trabajan coordinadamente para cumplir una función común. (Tres palabras.) |
+| T | Empieza | TEJIDO | tejidos | células semejantes cooperando | Conjunto de células semejantes que cooperan para cumplir una función específica. |
+
+Total: 82 entradas en 24 letras.
