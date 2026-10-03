@@ -900,7 +900,12 @@ function burbuja(k){const a=FRASES[k];if(!a)return;const b=$("burbuja");
 const RANKING_URL="https://script.google.com/macros/s/AKfycbwYaVG8UspPmZuNyodP8DcUSijfXkEAeqa9xkW-Tb9Cx5ovsaNBeGngwVRn1lff_L4Xbw/exec";
 const rankingOn=()=>RANKING_URL.startsWith("http");
 async function rankingTraer(top){
-  const r=await fetch(RANKING_URL+"?top="+top);if(!r.ok)throw 0;return r.json();
+  const r=await fetch(RANKING_URL+"?top="+top);if(!r.ok)throw 0;
+  const lista=await r.json();const por={};
+  lista.forEach(x=>{const k=(x.nombre||"").trim().toLowerCase()+"|"+(x.seccion||"");
+    if(!por[k])por[k]=Object.assign({},x);
+    else{por[k].aciertos+=x.aciertos;por[k].partidas=(por[k].partidas||1)+(x.partidas||1);}});
+  return Object.values(por).sort((a,b)=>b.aciertos-a.aciertos);
 }
 function rankingFila(r,i,sinSec){
   const medal=i<3?["🥇","🥈","🥉"][i]:(i+1);
@@ -910,7 +915,7 @@ function rankingFila(r,i,sinSec){
     '<span class="pts">'+r.aciertos+' aciertos</span></div>';
 }
 function rankingPintar(lista){
-  [["ranking-inicio","ranking-inicio-lista",5],["ranking-final","ranking-final-lista",10]].forEach(x=>{
+  [["ranking-inicio","ranking-inicio-lista",5],["ranking-final","ranking-final-lista",5]].forEach(x=>{
     const c=$(x[0]);if(!c)return;
     if(!rankingOn()||!lista){c.style.display="none";return;}
     c.style.display="";
@@ -920,7 +925,7 @@ function rankingPintar(lista){
 }
 async function rankingActualizar(){
   if(!rankingOn())return;
-  try{rankingPintar(await rankingTraer(10));}catch(e){}
+  try{rankingPintar(await rankingTraer(5));}catch(e){}
 }
 function rankingEnviar(){
   if(!rankingOn())return Promise.resolve();
@@ -942,7 +947,7 @@ async function mostrarRankingSecs(){
   const porSec={};lista.forEach(r=>{const s=r.seccion||"—";(porSec[s]=porSec[s]||[]).push(r);});
   cont.innerHTML=Object.keys(porSec).sort().map(s=>{
     return '<div class="sec-col"><h3>'+s+'</h3><small>'+porSec[s].length+' estudiantes con marca registrada</small>'+
-      porSec[s].slice(0,15).map((r,i)=>rankingFila(r,i,true)).join("")+'</div>';}).join("");
+      porSec[s].slice(0,5).map((r,i)=>rankingFila(r,i,true)).join("")+'</div>';}).join("");
 }
 $("btn-resultados").addEventListener("click",()=>{audio();mostrarRankingSecs();});
 $("btn-volver-ranking").addEventListener("click",()=>{audio();mostrar("p-final");});
@@ -994,7 +999,14 @@ $("btn-jugar").addEventListener("click",()=>{
   const a=$("n1").value.trim(),b=conBot?BOT.nombre:$("n2").value.trim();
   if(!a||!b){$("aviso").textContent=conBot?"Escribí tu nombre para empezar.":"Escriban los dos nombres para armar la pareja.";return;}
   nombres=[a,b];audio();jugados=[];quienEmpieza=0;nuevaPartida();
+  try{localStorage.setItem("ppb-jugador",JSON.stringify({nombre:nombres[0],avatar:avatares[0],seccion:seccion}))}catch(e){}
 });
+try{const g=JSON.parse(localStorage.getItem("ppb-jugador")||"null");
+  if(g){
+    if(g.nombre)$("n1").value=g.nombre;
+    if(g.seccion){seccion=g.seccion;[...$("chips-sec").children].forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.sec===g.seccion)));}
+    if(typeof g.avatar==="number"&&g.avatar>=0&&g.avatar<AVATARES.length-1){avatares[0]=g.avatar;pintarAvs();}}
+}catch(e){}
 
 /* ===== PARTIDA ===== */
 function sortearRosco(){
