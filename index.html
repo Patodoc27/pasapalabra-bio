@@ -861,7 +861,7 @@ $("btn-voz").addEventListener("click",()=>{
 function leerConsigna(){
   if(!jugando)return;
   const it=items[idx];if(!it)return;
-  const NOMBRE_LETRA={A:"a",B:"be",C:"ce",D:"de",E:"e",F:"efe",G:"ge",H:"hache",I:"i",J:"jota",L:"ele",M:"eme",N:"ene","Ñ":"eñe",O:"o",P:"pe",Q:"cu",R:"ere",S:"ese",T:"te",U:"u",V:"uve",X:"equis",Y:"i griega"};
+  const NOMBRE_LETRA={A:"a",B:"be",C:"ce",D:"de",E:"e",F:"efe",G:"ge",H:"hache",I:"i",J:"jota",L:"ele",M:"eme",N:"ene","Ñ":"eñe",O:"o",P:"pe",Q:"cú",R:"ere",S:"ese",T:"te",U:"u",V:"uve",X:"equis",Y:"i griega"};
   const cons=(it.m===E?"Empieza por la letra ":"Contiene la letra ")+(NOMBRE_LETRA[it.letra]||it.letra);
   const txt=(it.d||"").replace(/<[^>]+>/g," ");
   leer(cons);
@@ -1114,7 +1114,7 @@ function entrarAlJuego(){
   mostrarLetra();
   /* con lectura activa, nadie responde hasta que la voz termina la definición;
      sin lectura, se responde al instante */
-  if(esBot()){habilitar(false);alTerminarVoz(()=>{if(jugando&&esBot())jugadaBot();});}
+  if(esBot()){habilitar(false);jugadaBot();}
   else if(lectura&&soportaVoz){habilitar(false);alTerminarVoz(()=>{if(jugando&&!esBot()){habilitar(true);arrancarReloj();luego(()=>$("entrada").focus(),120);}});}
   else{habilitar(true);arrancarReloj();luego(()=>$("entrada").focus(),120);}
 }
@@ -1149,10 +1149,13 @@ function jugadaBot(){
   if(rachaBot>=BOT.racha)acierta=false;
   const pasa=!acierta&&sinResolver>1&&Math.random()<BOT.pasa/(1-BOT.ok);
   const texto=acierta?it.p:(pasa?"":erroneaBot(it));
-  luego(()=>{
+  /* Boti empieza a pensar apenas aparece su consigna, en paralelo con la voz;
+     escribe cuando la lectura termina, si ya pasaron sus ~6s de "pensada" */
+  const espera=6000+Math.random()*1200,t0=Date.now();
+  const disparar=()=>{
     if(pasa){rachaBot=0;resolverBot("pasa");return;}
-    tipear(texto,()=>luego(()=>resolverBot(acierta?"ok":"mal"),450));
-  },6000+Math.random()*1200);   // Boti espera ~6 segundos: el estudiante alcanza a leer la consigna
+    tipear(texto,()=>luego(()=>resolverBot(acierta?"ok":"mal"),450));};
+  alTerminarVoz(()=>{if(jugando&&esBot())luego(disparar,Math.max(0,espera-(Date.now()-t0)));});
 }
 function erroneaBot(it){
   const otras=TODAS.filter(p=>p!==it.p&&!casiAcepta(it,p));
