@@ -819,7 +819,7 @@ function pintarSonido(){const b=$("btn-son");b.textContent=sonido?"🔊":"🔇";
 $("btn-son").addEventListener("click",()=>{sonido=!sonido;pintarSonido();if(sonido)sTurno();});
 
 /* ===== VOZ · lectura de consignas ===== */
-let lectura=false,vozElegida=null;
+let lectura=true,vozElegida=null;   // lectura en voz alta prendida por defecto (el estudiante la apaga si quiere)
 const soportaVoz="speechSynthesis" in window;
 function elegirVoz(){
   if(!soportaVoz)return;
@@ -836,6 +836,13 @@ function elegirVoz(){
   vozElegida=vs.reduce((a,b)=>puntos(b)>puntos(a)?b:a);
 }
 if(soportaVoz){elegirVoz();speechSynthesis.onvoiceschanged=elegirVoz;}
+/* vozPendiente: acción que corre cuando la voz termina de leer la definición
+   (habilitar responder, o dejar pensar a Boti). Si la lectura está apagada,
+   corren al instante: quien lee rápido no espera. */
+let vozPendiente=null;
+const correrPendiente=()=>{const f=vozPendiente;vozPendiente=null;if(f)f();};
+const alTerminarVoz=cb=>{if(lectura&&soportaVoz)vozPendiente=cb;else cb();};
+pintarVoz();
 const callar=()=>{if(soportaVoz)speechSynthesis.cancel();};
 function leer(texto){
   if(!lectura||!soportaVoz)return;
@@ -849,7 +856,7 @@ function pintarVoz(){const b=$("btn-voz");b.textContent=lectura?"🗣️":"📖"
 $("btn-voz").addEventListener("click",()=>{
   if(!soportaVoz)return;
   lectura=!lectura;pintarVoz();
-  if(lectura)leerConsigna();else callar();
+  if(lectura)leerConsigna();else{callar();correrPendiente();}
 });
 function leerConsigna(){
   if(!jugando)return;
@@ -863,7 +870,9 @@ function leerConsigna(){
     const u=new SpeechSynthesisUtterance(txt);
     if(vozElegida){u.voice=vozElegida;u.lang=vozElegida.lang}else u.lang="es-419";
     u.rate=.96;u.pitch=1.1;
+    u.onend=correrPendiente;u.onerror=correrPendiente;
     speechSynthesis.speak(u);
+    luego(()=>{if(items[idx]===it)correrPendiente();},Math.min(txt.length*110+5000,18000));  // respaldo si el habla no avisa
   },2200);
 }
 
@@ -1103,7 +1112,10 @@ function cuentaRegresiva(){
 function entrarAlJuego(){
   jugando=true;bloqueado=false;intentos=0;colorTurno();$("tablero").classList.remove("oculto");
   mostrarLetra();
-  if(esBot()){habilitar(false);jugadaBot();}
+  /* con lectura activa, nadie responde hasta que la voz termina la definición;
+     sin lectura, se responde al instante */
+  if(esBot()){habilitar(false);alTerminarVoz(()=>{if(jugando&&esBot())jugadaBot();});}
+  else if(lectura&&soportaVoz){habilitar(false);alTerminarVoz(()=>{if(jugando&&!esBot()){habilitar(true);arrancarReloj();luego(()=>$("entrada").focus(),120);}});}
   else{habilitar(true);arrancarReloj();luego(()=>$("entrada").focus(),120);}
 }
 function habilitar(v){
