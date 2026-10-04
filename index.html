@@ -191,7 +191,7 @@ input::placeholder{color:var(--placeholder)}
 #empieza-quien{font-family:var(--display);font-weight:700;font-size:clamp(18px,2.6vw,26px);color:var(--gris);margin-top:6px}
 
 /* TABLERO */
-#p-juego .tarjeta{padding:clamp(12px,1.7vw,24px);position:relative;overflow:hidden}
+#p-juego .tarjeta{padding:clamp(12px,1.7vw,24px);position:relative;overflow:hidden;min-height:calc(100dvh - 2*clamp(8px,1.4vw,20px));display:flex;flex-direction:column}
 /* anti-copia: en juego y resultados no se puede seleccionar texto (las casillas sí) */
 #p-juego,#p-final,#p-cuenta{user-select:none;-webkit-user-select:none}
 #p-juego input,#p-final input{user-select:text;-webkit-user-select:text}
@@ -230,9 +230,14 @@ input::placeholder{color:var(--placeholder)}
 .menu-pop.abierto{display:block}
 .menu-pop button{display:block;width:100%;text-align:left;background:none;border:none;padding:11px 13px;border-radius:10px;font-family:var(--cuerpo);font-size:15px;color:var(--tinta);cursor:pointer}
 .menu-pop button:hover{background:var(--superficie)}
-.tablero{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:clamp(30px,5vw,84px);padding-top:clamp(10px,1.4vw,18px);transition:filter .3s}
+.tablero{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:clamp(30px,5vw,84px);padding-top:clamp(10px,1.4vw,18px);transition:filter .3s;flex:1}
 .tablero::before{content:"";flex:none;width:clamp(150px,15vw,210px)}   /* equilibra la columna lateral: el rosco queda centrado entre el patito y los botones */
 @media(max-width:1180px){.tablero::before{display:none}}
+@media(max-height:700px){.rosco-caja{width:min(60vh,700px)}
+  .bur-stat{width:54px}
+  .lateral{gap:7px}
+  .lateral .kbd-hint{display:none}
+  .tablero{padding-top:8px}}
 .tablero.oculto{filter:blur(9px) saturate(.6);pointer-events:none}
 .rosco-caja{position:relative;width:min(65vh,700px);max-width:100%;aspect-ratio:1;flex:none;container-type:inline-size;margin:0 auto}
 .rosco-caja::after{content:"";position:absolute;inset:16%;border-radius:50%;pointer-events:none;
