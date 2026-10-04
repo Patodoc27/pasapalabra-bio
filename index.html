@@ -1099,7 +1099,7 @@ function overlayTurno(resu){
   $("definicion").innerHTML="";$("consigna").textContent="";
   $("ov-resu").innerHTML=resu;
   $("ov-quien").innerHTML=avaO(turno)+nombres[turno];
-  $("ov-sub").textContent=conBot?(esBot()?"Le toca a la compu":"Tu turno"):(arranque?"Preparate para empezar":"Pasale el teclado");
+  $("ov-sub").textContent=conBot?(esBot()?"Le toca a Boti":"Tu turno"):(arranque?"Preparate para empezar":"Pasale el teclado");
   $("btn-listo").className="btn"+(turno===1?" dos":"");
   $("btn-listo").style.display=conBot?"none":"";
   $("tablero").classList.add("oculto");$("overlay").classList.add("activo");
