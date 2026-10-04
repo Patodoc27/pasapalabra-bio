@@ -1099,12 +1099,13 @@ function overlayTurno(resu){
   $("definicion").innerHTML="";$("consigna").textContent="";
   $("ov-resu").innerHTML=resu;
   $("ov-quien").innerHTML=avaO(turno)+nombres[turno];
-  $("ov-sub").textContent=esBot()?"Le toca a la compu":(arranque?"Preparate para empezar":"Pasale el teclado");
+  $("ov-sub").textContent=conBot?(esBot()?"Le toca a la compu":"Tu turno"):(arranque?"Preparate para empezar":"Pasale el teclado");
   $("btn-listo").className="btn"+(turno===1?" dos":"");
-  $("btn-listo").style.display=(esBot()&&!arranque)?"none":"";
+  $("btn-listo").style.display=conBot?"none":"";
   $("tablero").classList.add("oculto");$("overlay").classList.add("activo");
   pintar();
-  if(esBot()&&!arranque) luego(()=>{$("overlay").classList.remove("activo");entrarAlJuego();},1300);
+  if(conBot) luego(()=>{$("overlay").classList.remove("activo");
+    if(arranque){arranque=false;cuentaRegresiva();}else entrarAlJuego();},1100);
   else $("btn-listo").focus();
 }
 $("btn-listo").addEventListener("click",()=>{
