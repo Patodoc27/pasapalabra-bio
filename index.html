@@ -191,7 +191,8 @@ input::placeholder{color:var(--placeholder)}
 #empieza-quien{font-family:var(--display);font-weight:700;font-size:clamp(18px,2.6vw,26px);color:var(--gris);margin-top:6px}
 
 /* TABLERO */
-#p-juego .tarjeta{padding:clamp(12px,1.7vw,24px);position:relative;overflow:hidden;min-height:calc(100dvh - 2*clamp(8px,1.4vw,20px));display:flex;flex-direction:column}
+#p-juego .tarjeta{padding:clamp(12px,1.7vw,24px);position:relative;overflow:hidden;
+  min-height:calc(100vh - 40px);min-height:calc(100dvh - 40px);display:flex;flex-direction:column}
 /* anti-copia: en juego y resultados no se puede seleccionar texto (las casillas sí) */
 #p-juego,#p-final,#p-cuenta{user-select:none;-webkit-user-select:none}
 #p-juego input,#p-final input{user-select:text;-webkit-user-select:text}
