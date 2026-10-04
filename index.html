@@ -64,7 +64,7 @@
 html{color-scheme:light}
 html[data-tema="show"]{color-scheme:dark}
 body{background:var(--fondo0);color:var(--tinta);font-family:var(--cuerpo);min-height:100dvh;
-  display:flex;justify-content:center;padding:clamp(10px,2vw,30px);overflow-x:hidden}
+  display:flex;justify-content:center;padding:clamp(8px,1.4vw,20px);overflow-x:hidden}
 body::before{content:"";position:fixed;inset:-18%;z-index:-2;pointer-events:none;
   background:
     radial-gradient(40vw 32vw at 10% 6%,var(--au1),transparent 60%),
@@ -191,11 +191,11 @@ input::placeholder{color:var(--placeholder)}
 #empieza-quien{font-family:var(--display);font-weight:700;font-size:clamp(18px,2.6vw,26px);color:var(--gris);margin-top:6px}
 
 /* TABLERO */
-#p-juego .tarjeta{padding:clamp(16px,2.4vw,32px);position:relative;overflow:hidden}
+#p-juego .tarjeta{padding:clamp(12px,1.7vw,24px);position:relative;overflow:hidden}
 /* anti-copia: en juego y resultados no se puede seleccionar texto (las casillas sí) */
 #p-juego,#p-final,#p-cuenta{user-select:none;-webkit-user-select:none}
 #p-juego input,#p-final input{user-select:text;-webkit-user-select:text}
-.top{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--borde)}
+.top{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--borde)}
 .capsula{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:18px;color:var(--jug);
   background:var(--superficie);border:1px solid var(--borde);border-radius:999px;padding:8px 16px}
 .punto{width:13px;height:13px;border-radius:50%;background:var(--jug);
@@ -230,9 +230,11 @@ input::placeholder{color:var(--placeholder)}
 .menu-pop.abierto{display:block}
 .menu-pop button{display:block;width:100%;text-align:left;background:none;border:none;padding:11px 13px;border-radius:10px;font-family:var(--cuerpo);font-size:15px;color:var(--tinta);cursor:pointer}
 .menu-pop button:hover{background:var(--superficie)}
-.tablero{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:clamp(30px,5vw,84px);padding-top:clamp(14px,2vw,24px);transition:filter .3s}
+.tablero{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:clamp(30px,5vw,84px);padding-top:clamp(10px,1.4vw,18px);transition:filter .3s}
+.tablero::before{content:"";flex:none;width:clamp(150px,15vw,210px)}   /* equilibra la columna lateral: el rosco queda centrado entre el patito y los botones */
+@media(max-width:1180px){.tablero::before{display:none}}
 .tablero.oculto{filter:blur(9px) saturate(.6);pointer-events:none}
-.rosco-caja{position:relative;width:min(78vh,740px);max-width:100%;aspect-ratio:1;flex:none;container-type:inline-size;margin:0 auto}
+.rosco-caja{position:relative;width:min(65vh,700px);max-width:100%;aspect-ratio:1;flex:none;container-type:inline-size;margin:0 auto}
 .rosco-caja::after{content:"";position:absolute;inset:16%;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle,color-mix(in srgb,var(--jug) 12%,transparent),transparent 70%);transition:background .4s}
 @keyframes gira{to{transform:rotate(360deg)}}
@@ -283,8 +285,8 @@ kbd{font-family:var(--cuerpo);font-weight:700;font-size:11px;color:var(--tinta);
   background:color-mix(in srgb,var(--uva) 13%,transparent);border:1px solid color-mix(in srgb,var(--uva) 32%,transparent);
   color:color-mix(in srgb,var(--uva) 78%,var(--tinta))}
 /* marcadores tipo programa: reloj y contadores en burbujas, en columna lateral */
-.lateral{width:clamp(150px,15vw,210px);flex:none;display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.5vh,16px)}
-.lateral .feedback{width:100%;min-height:3.6em;max-height:none;overflow:visible;text-align:left;font-size:14px;
+.lateral{width:clamp(150px,15vw,210px);flex:none;display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.2vh,12px)}
+.lateral .feedback{width:100%;min-height:3em;max-height:none;overflow:visible;text-align:left;font-size:14px;
   background:var(--superficie2);border:1px solid var(--borde);border-radius:16px;padding:12px 14px;line-height:1.4}
 .lateral .feedback:empty{background:transparent;border-color:transparent}
 .lateral .acciones{display:flex;flex-direction:column;gap:9px;width:100%;align-items:center}
@@ -297,7 +299,7 @@ kbd{font-family:var(--cuerpo);font-weight:700;font-size:11px;color:var(--tinta);
 .m-grupo{display:flex;gap:clamp(12px,1.8vw,26px)}
 .stat{display:flex;flex-direction:column;align-items:center;gap:6px}
 .stat .lbl{font-family:var(--display);font-weight:700;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)}
-.bur-stat{width:clamp(56px,5.4vw,76px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+.bur-stat{width:clamp(52px,5vw,68px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
   font-family:var(--display);font-weight:800;font-size:clamp(16px,1.7vw,22px);font-variant-numeric:tabular-nums;
   background:linear-gradient(145deg,color-mix(in srgb,var(--jug) 88%,#fff),color-mix(in srgb,var(--jug) 84%,#000));
   border:2.5px solid transparent;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.28);
