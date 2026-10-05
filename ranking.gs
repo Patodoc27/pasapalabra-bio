@@ -42,6 +42,13 @@ function doPost(e) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+/* Normaliza nombre/sección para juntar al mismo estudiante
+   aunque lo escriba con mayúsculas, tildes o espacios distintos */
+function norma_(s) {
+  return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase().replace(/\s+/g, " ").trim();
+}
+
 /* El juego llama a esto para leer el ranking.
    Suma los aciertos de TODAS las partidas de cada estudiante
    (premia la constancia); en empate gana quien jugó menos partidas.
@@ -53,7 +60,7 @@ function doGet(e) {
   const filas = sheet_().getDataRange().getValues().slice(1);
   const acumulados = {};
   filas.forEach(r => {
-    const clave = String(r[1]).toLowerCase() + "|" + String(r[2]).toLowerCase();
+    const clave = norma_(r[1]) + "|" + norma_(r[2]);
     if (!acumulados[clave]) {
       acumulados[clave] = { nombre: String(r[1]), seccion: String(r[2]), aciertos: 0, total: +r[8] || 24, partidas: 0, avatar: +r[3] || 0 };
     }

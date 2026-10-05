@@ -926,17 +926,18 @@ function burbuja(k){const a=FRASES[k];if(!a)return;const b=$("burbuja");
    quede vacía el juego funciona igual y no muestra la tabla. */
 const RANKING_URL="https://script.google.com/macros/s/AKfycbwYaVG8UspPmZuNyodP8DcUSijfXkEAeqa9xkW-Tb9Cx5ovsaNBeGngwVRn1lff_L4Xbw/exec";
 const rankingOn=()=>RANKING_URL.startsWith("http");
+const normaRank=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim();
 async function rankingTraer(top){
   const r=await fetch(RANKING_URL+"?top="+top);if(!r.ok)throw 0;
   const lista=await r.json();const por={};
-  lista.forEach(x=>{const k=(x.nombre||"").trim().toLowerCase()+"|"+(x.seccion||"");
+  lista.forEach(x=>{const k=normaRank(x.nombre)+"|"+normaRank(x.seccion);
     if(!por[k])por[k]=Object.assign({},x);
     else{por[k].aciertos+=x.aciertos;por[k].partidas=(por[k].partidas||1)+(x.partidas||1);}});
   return Object.values(por).sort((a,b)=>b.aciertos-a.aciertos);
 }
 function rankingFila(r,i,sinSec){
   const medal=i===0?"🥇":i===1?"🥈":"🥉";
-  const mio=r.seccion===seccion&&(r.nombre===nombres[0]||r.nombre===nombres[1]);
+  const mio=normaRank(r.seccion)===normaRank(seccion)&&(normaRank(r.nombre)===normaRank(nombres[0])||normaRank(r.nombre)===normaRank(nombres[1]));
   return '<div class="f-rank'+(mio?" mio":"")+'"><span class="pos">'+medal+'</span>'+avaR(r.avatar)+
     '<span class="nom">'+r.nombre+'<small>'+(sinSec?"":r.seccion+" · ")+(r.partidas>1?r.partidas+" partidas":"1 partida")+'</small></span>'+
     '<span class="pts">'+r.aciertos+' aciertos</span></div>';
