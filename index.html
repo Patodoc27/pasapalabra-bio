@@ -975,7 +975,7 @@ async function mostrarRankingSecs(){
   const porSec={};lista.forEach(r=>{const s=r.seccion||"—";(porSec[s]=porSec[s]||[]).push(r);});
   cont.innerHTML=Object.keys(porSec).sort().map(s=>{
     return '<div class="sec-col"><h3>'+s+'</h3><small>'+porSec[s].length+' estudiantes con marca registrada</small>'+
-      porSec[s].slice(0,5).map((r,i)=>rankingFila(r,i,true)).join("")+'</div>';}).join("");
+      porSec[s].map((r,i)=>rankingFila(r,i,true)).join("")+'</div>';}).join("");
 }
 $("btn-resultados").addEventListener("click",()=>{audio();mostrarRankingSecs();});
 $("btn-volver-ranking").addEventListener("click",()=>{audio();mostrar("p-final");});
