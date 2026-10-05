@@ -924,7 +924,7 @@ function burbuja(k){const a=FRASES[k];if(!a)return;const b=$("burbuja");
    Guarda los puntajes en una planilla de Google a través de un Apps Script
    (archivo ranking.gs, ver instrucciones_ranking.md). Mientras RANKING_URL
    quede vacía el juego funciona igual y no muestra la tabla. */
-const RANKING_URL="https://script.google.com/macros/s/AKfycbyrwep5xzofNEddl03Fg2gUojjiKm326fzMd1rDtH6ir0GybFTZIyf9Hleabgy677oOUQ/exec";
+const RANKING_URL="https://script.google.com/macros/s/AKfycbw8OhNmqmhdIpyzEhS9xWh__x3XBD18nQ590XaBePZRiQ0SRTN-qf3fZ-WDRWAeoSousQ/exec";
 const rankingOn=()=>RANKING_URL.startsWith("http");
 const normaRank=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim();
 async function rankingTraer(top){
