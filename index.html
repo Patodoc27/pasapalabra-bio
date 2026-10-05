@@ -933,7 +933,7 @@ async function rankingTraer(top){
   lista.forEach(x=>{const k=normaRank(x.nombre)+"|"+normaRank(x.seccion);
     if(!por[k])por[k]=Object.assign({},x);
     else{por[k].aciertos+=x.aciertos;por[k].partidas=(por[k].partidas||1)+(x.partidas||1);}});
-  return Object.values(por).sort((a,b)=>b.aciertos-a.aciertos);
+  return Object.values(por).sort((a,b)=>b.aciertos-a.aciertos||(a.partidas||1)-(b.partidas||1));
 }
 function rankingFila(r,i,sinSec){
   const medal=i===0?"🥇":i===1?"🥈":"🥉";
