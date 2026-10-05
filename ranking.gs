@@ -67,6 +67,7 @@ function doGet(e) {
     acumulados[clave].partidas++;
     acumulados[clave].aciertos += +r[5] || 0;
     acumulados[clave].total = +r[8] || 24;
+    acumulados[clave].avatar = +r[3] || 0;   // se muestra el avatar de la última partida
   });
   const lista = Object.values(acumulados)
     .sort((a, b) => b.aciertos - a.aciertos || a.partidas - b.partidas)

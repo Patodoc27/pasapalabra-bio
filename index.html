@@ -932,7 +932,7 @@ async function rankingTraer(top){
   const lista=await r.json();const por={};
   lista.forEach(x=>{const k=normaRank(x.nombre)+"|"+normaRank(x.seccion);
     if(!por[k])por[k]=Object.assign({},x);
-    else{por[k].aciertos+=x.aciertos;por[k].partidas=(por[k].partidas||1)+(x.partidas||1);}});
+    else{por[k].aciertos+=x.aciertos;por[k].partidas=(por[k].partidas||1)+(x.partidas||1);por[k].avatar=x.avatar;}});
   return Object.values(por).sort((a,b)=>b.aciertos-a.aciertos||(a.partidas||1)-(b.partidas||1));
 }
 function rankingFila(r,i,sinSec){
