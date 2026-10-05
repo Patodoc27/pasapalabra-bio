@@ -739,7 +739,7 @@ T:[
  {m:C,p:"HETERÓTROFOS",v:["heterótrofo","heterótrofa","heterótrofas"],k:"comen materia orgánica ya formada",d:"Organismos que no pueden fabricar su propia materia orgánica y la incorporan ya formada, comiendo a otros seres vivos o sus restos."},
  {m:E,p:"TUCÁN GRANDE",v:["tucán"],k:"el del pico naranja hueco",d:"Ave de pico naranja hueco que siembra la selva de las Yungas. <b>(Dos palabras.)</b>"}],
 U:[
- {m:E,p:"UNIFORMIDAD MOLECULAR",v:["uniformidad"],k:"todos con las mismas biomoléculas",d:"Que todos los seres vivos usen las mismas biomoléculas y el mismo ADN: una prueba del origen común. <b>(Dos palabras.)</b>"},
+ {m:E,p:"UNIFORMIDAD MOLECULAR",v:["uniformidad"],k:"todos con las mismas biomoléculas",d:"Evidencia del origen común de los seres vivos, que surge de que todos están formados por los mismos tipos de biomoléculas. <b>(Dos palabras.)</b>"},
  {m:C,p:"AUTÓTROFOS",v:["autótrofo","autótrofa","autótrofas"],k:"fabrican su propia materia orgánica",d:"Organismos que fabrican su propia materia orgánica a partir de materia inorgánica del ambiente."},
  {m:E,p:"UNICELULAR",v:["unicelulares"],k:"una sola célula lo hace todo",d:"Organismo formado por una sola célula, que cumple en ella todas las funciones vitales."}],
 V:[
@@ -935,14 +935,14 @@ async function rankingTraer(top){
   return Object.values(por).sort((a,b)=>b.aciertos-a.aciertos);
 }
 function rankingFila(r,i,sinSec){
-  const medal=i<3?["🥇","🥈","🥉"][i]:(i+1);
+  const medal=i===0?"🥇":i===1?"🥈":"🥉";
   const mio=r.seccion===seccion&&(r.nombre===nombres[0]||r.nombre===nombres[1]);
   return '<div class="f-rank'+(mio?" mio":"")+'"><span class="pos">'+medal+'</span>'+avaR(r.avatar)+
     '<span class="nom">'+r.nombre+'<small>'+(sinSec?"":r.seccion+" · ")+(r.partidas>1?r.partidas+" partidas":"1 partida")+'</small></span>'+
     '<span class="pts">'+r.aciertos+' aciertos</span></div>';
 }
 function rankingPintar(lista){
-  [["ranking-inicio","ranking-inicio-lista",5],["ranking-final","ranking-final-lista",5]].forEach(x=>{
+  [["ranking-inicio","ranking-inicio-lista",6],["ranking-final","ranking-final-lista",5]].forEach(x=>{
     const c=$(x[0]);if(!c)return;
     if(!rankingOn()||!lista){c.style.display="none";return;}
     c.style.display="";
@@ -952,7 +952,7 @@ function rankingPintar(lista){
 }
 async function rankingActualizar(){
   if(!rankingOn())return;
-  try{rankingPintar(await rankingTraer(5));}catch(e){}
+  try{rankingPintar(await rankingTraer(6));}catch(e){}
 }
 function rankingEnviar(){
   if(!rankingOn()||sinReloj)return Promise.resolve();   // modo práctica: no se asienta en el ranking

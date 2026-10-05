@@ -65,7 +65,7 @@
 | S | Empieza | SALES MINERALES | sal mineral | lo que el cardón toma del suelo | Materia que el cardón absorbe del suelo junto con el agua. (Dos palabras.) |
 | T | Contiene | HETERÓTROFOS | heterótrofo, heterótrofa, heterótrofas | comen materia orgánica ya formada | Organismos que no pueden fabricar su propia materia orgánica y la incorporan ya formada, comiendo a otros seres vivos o sus restos. |
 | T | Empieza | TUCÁN GRANDE | tucán | el del pico naranja hueco | Ave de pico naranja hueco que siembra la selva de las Yungas. (Dos palabras.) |
-| U | Empieza | UNIFORMIDAD MOLECULAR | uniformidad | todos con las mismas biomoléculas | Que todos los seres vivos usen las mismas biomoléculas y el mismo ADN: una prueba del origen común. (Dos palabras.) |
+| U | Empieza | UNIFORMIDAD MOLECULAR | uniformidad | todos con las mismas biomoléculas | Evidencia del origen común de los seres vivos, que surge de que todos están formados por los mismos tipos de biomoléculas. (Dos palabras.) |
 | U | Contiene | AUTÓTROFOS | autótrofo, autótrofa, autótrofas | fabrican su propia materia orgánica | Organismos que fabrican su propia materia orgánica a partir de materia inorgánica del ambiente. |
 | V | Empieza | VACUOLA CENTRAL | vacuola | organela que almacena agua y mantiene firme la célula | Organela con membrana que almacena agua y otras sustancias, mantiene firme la célula y digiere desechos. (Dos palabras.) |
 | X | Contiene | ASEXUAL | reproducción asexual | un solo progenitor, sin células sexuales | Tipo de reproducción con un solo progenitor, sin unión de células reproductivas, donde los descendientes son numerosos y genéticamente idénticos a él. |
