@@ -21,8 +21,8 @@
 | C | Empieza | CLOROPLASTOS | cloroplasto | organelas de la fotosíntesis | Organelas con membrana que captan la luz del sol y la usan para transformar agua y dióxido de carbono en alimento. En ellas ocurre la fotosíntesis. |
 | C | Empieza | CENTRÍOLOS | centríolo, centriolos, centriolo | organelas sin membrana de la división | Organelas sin membrana que organizan las fibras que reparten el material genético cuando la célula se divide. |
 | D | Empieza | DESARROLLO |  | formas y capacidades nuevas | Aparición de nuevas formas, estructuras y capacidades a lo largo de la vida del organismo. |
-| D | Empieza | DESARROLLO DIRECTO |  | el recién nacido ya se parece al maduro | Tipo de crecimiento en el que el recién nacido se parece al individuo maduro y solo aumenta de tamaño, sin etapas intermedias distintas. (Dos palabras.) |
-| D | Empieza | DESARROLLO INDIRECTO |  | crece por etapas, con metamorfosis | Tipo de crecimiento en el que el recién nacido es muy distinto del individuo maduro y cambia de forma por etapas, mediante una metamorfosis. (Dos palabras.) |
+| D | Empieza | DESARROLLO DIRECTO |  | el recién nacido ya se parece al maduro | Conjunto de cambios en el que el individuo joven tiene un aspecto parecido al del adulto. (Dos palabras.) |
+| D | Empieza | DESARROLLO INDIRECTO |  | crece por etapas, con metamorfosis | Conjunto de cambios en el que el individuo joven tiene un aspecto muy distinto al del adulto y cambia su cuerpo por etapas hasta parecerse a él. (Dos palabras.) |
 | E | Empieza | ENERGÍA |  | no pesa, pero produce cambios | Capacidad de producir transformaciones, cambios o calor. No es un objeto físico con peso, pero permite que la materia se active y los procesos de la vida sucedan. |
 | E | Empieza | ESTÍMULO | estímulo, estimulo, estímulos, estimulos | el cambio que se detecta | Cambio del ambiente externo o interno de un ser vivo que es detectado por este y provoca en él una reacción. |
 | F | Empieza | FOTOAUTÓTROFOS | fotoautótrofo, fotoautótrofa, fotoautótrofas | fabrican su alimento con luz | Autótrofos que usan la energía de la luz solar para fabricar materia orgánica. |
