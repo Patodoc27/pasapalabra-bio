@@ -87,7 +87,7 @@
 | H | Empieza | HIDRÓGENO | hidrogeno | el elemento más liviano | Elemento químico más liviano que existe, presente en el agua y en las biomoléculas. |
 | O | Empieza | OXÍGENO | oxigeno | el gas de la respiración celular | Elemento químico presente en el agua y en las biomoléculas, que muchos seres vivos usan en la respiración celular. |
 
-| P | Empieza | PLURICELULAR | pluricelulares, multicelular | muchas células en conjunto | Organismo formado por muchas células que trabajan en conjunto. |
-| U | Empieza | UNICELULAR | unicelulares | una sola célula lo hace todo | Organismo formado por una sola célula, que cumple en ella todas las funciones vitales. |
+| P | Empieza | PLURICELULAR | pluricelulares, multicelular | muchas células en conjunto | Tipo de organismo formado por muchas células que trabajan en conjunto. |
+| U | Empieza | UNICELULAR | unicelulares | una sola célula lo hace todo | Tipo de organismo formado por una sola célula, que cumple en ella todas las funciones vitales. |
 
 Total: 83 entradas en 24 letras.
