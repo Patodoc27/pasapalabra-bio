@@ -927,6 +927,7 @@ function burbuja(k){const a=FRASES[k];if(!a)return;const b=$("burbuja");
 const RANKING_URL="https://script.google.com/macros/s/AKfycbw8OhNmqmhdIpyzEhS9xWh__x3XBD18nQ590XaBePZRiQ0SRTN-qf3fZ-WDRWAeoSousQ/exec";
 const rankingOn=()=>RANKING_URL.startsWith("http");
 const normaRank=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim();
+const nombreBonito=s=>String(s||"").replace(/\s+/g," ").trim().toLowerCase().replace(/(^|\s)(\S)/g,(m,a,l)=>a+l.toUpperCase());
 async function rankingTraer(top){
   const r=await fetch(RANKING_URL+"?top="+top);if(!r.ok)throw 0;
   const lista=await r.json();const por={};
@@ -939,7 +940,7 @@ function rankingFila(r,i,sinSec){
   const medal=i===0?"🥇":i===1?"🥈":"🥉";
   const mio=normaRank(r.seccion)===normaRank(seccion)&&(normaRank(r.nombre)===normaRank(nombres[0])||normaRank(r.nombre)===normaRank(nombres[1]));
   return '<div class="f-rank'+(mio?" mio":"")+'"><span class="pos">'+medal+'</span>'+avaR(r.avatar)+
-    '<span class="nom">'+r.nombre+'<small>'+(sinSec?"":r.seccion+" · ")+(r.partidas>1?r.partidas+" partidas":"1 partida")+'</small></span>'+
+    '<span class="nom">'+nombreBonito(r.nombre)+'<small>'+(sinSec?"":r.seccion+" · ")+(r.partidas>1?r.partidas+" partidas":"1 partida")+'</small></span>'+
     '<span class="pts">'+r.aciertos+' aciertos</span></div>';
 }
 function rankingPintar(lista){
