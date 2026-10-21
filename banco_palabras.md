@@ -19,13 +19,16 @@
 | C | Empieza | CITOPLASMA |  | el medio gelatinoso de la célula | Medio gelatinoso que rodea a las organelas; en él ocurren muchas de las reacciones químicas de la célula. |
 | C | Empieza | CITOESQUELETO |  | la red de fibras que sostiene la forma | Red de fibras que sostiene la forma de la célula y mueve sus partes internas. |
 | C | Empieza | CLOROPLASTOS | cloroplasto | organelas de la fotosíntesis | Organelas con membrana que captan la luz del sol y la usan para transformar agua y dióxido de carbono en alimento. En ellas ocurre la fotosíntesis. |
+| C | Empieza | CLOROFILA | clorofila | el pigmento verde | Pigmento verde que capta la energía de la luz en la fotosíntesis. |
 | C | Empieza | CENTRÍOLOS | centríolo, centriolos, centriolo | organelas sin membrana de la división | Organelas sin membrana que organizan las fibras que reparten el material genético cuando la célula se divide. |
 | D | Empieza | DESARROLLO |  | formas y capacidades nuevas | Aparición de nuevas formas, estructuras y capacidades a lo largo de la vida del organismo. |
 | D | Empieza | DESARROLLO DIRECTO |  | el recién nacido ya se parece al maduro | Conjunto de cambios en el que el individuo joven tiene un aspecto parecido al del adulto. (Dos palabras.) |
 | D | Empieza | DESARROLLO INDIRECTO |  | crece por etapas, con metamorfosis | Conjunto de cambios en el que el individuo joven tiene un aspecto muy distinto al del adulto y cambia su cuerpo por etapas hasta parecerse a él. (Dos palabras.) |
 | E | Empieza | ENERGÍA |  | no pesa, pero produce cambios | Capacidad de producir transformaciones, cambios o calor. No es un objeto físico con peso, pero permite que la materia se active y los procesos de la vida sucedan. |
 | E | Empieza | ESTÍMULO | estímulo, estimulo, estímulos, estimulos | el cambio que se detecta | Cambio del ambiente externo o interno de un ser vivo que es detectado por este y provoca en él una reacción. |
+| E | Empieza | ESTOMA | estomas | poros que respiran | Poro de la epidermis vegetal por el que la planta intercambia gases con el ambiente. |
 | F | Empieza | FOTOAUTÓTROFOS | fotoautótrofo, fotoautótrofa, fotoautótrofas | fabrican su alimento con luz | Autótrofos que usan la energía de la luz solar para fabricar materia orgánica. |
+| F | Empieza | FOTOSÍNTESIS | fotosintesis | luz convertida en alimento | Proceso mediante el cual los organismos fotosintéticos transforman la energía de la luz en energía química, produciendo glucosa a partir de dióxido de carbono y agua. |
 | F | Empieza | FECUNDACIÓN |  | se unen las dos células sexuales | Proceso en el que se unen la célula sexual masculina y la femenina; en las plantas con flor ocurre después de que el polen llega a la parte femenina. |
 | F | Empieza | FUNCIONES VITALES | función vital | nutrición, relación y reproducción | Los tres procesos que realizan todos los seres vivos y que los distinguen de los objetos inertes: nutrición, relación y reproducción. (Dos palabras.) |
 | G | Empieza | GLUCÓGENO |  | reserva de energía rápida | Hidrato de carbono con el que la parina almacena energía para usarla rápido. |
@@ -90,4 +93,4 @@
 | P | Empieza | PLURICELULAR | pluricelulares, multicelular | muchas células en conjunto | Tipo de organismo formado por muchas células que trabajan en conjunto. |
 | U | Empieza | UNICELULAR | unicelulares | una sola célula lo hace todo | Tipo de organismo formado por una sola célula, que cumple en ella todas las funciones vitales. |
 
-Total: 83 entradas en 24 letras.
+Total: 87 entradas en 24 letras.
