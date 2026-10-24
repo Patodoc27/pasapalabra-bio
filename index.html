@@ -1028,8 +1028,16 @@ $("chips-meta").addEventListener("click",e=>{const b=e.target.closest(".chip");i
   [...$("chips-meta").children].forEach(c=>c.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");});
 ["n1","n2"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")$("btn-jugar").click();}));
 $("btn-jugar").addEventListener("click",()=>{
-  const a=$("n1").value.trim(),b=conBot?BOT.nombre:$("n2").value.trim();
+  const a=$("n1").value.trim();
+  let b=conBot?BOT.nombre:$("n2").value.trim();
   if(!a||!b){$("aviso").textContent=conBot?"Escribí tu nombre para empezar.":"Escriban los dos nombres para armar la pareja.";return;}
+  if(!conBot&&normaRank(a)===normaRank(b)){   // mismo nombre en los dos campos: pasa a ser contra Boti
+    conBot=true;b=BOT.nombre;
+    [...$("chips-rival").children].forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.bot==="1")));
+    $("lab2").textContent="Rival";$("n2").value=BOT.nombre;$("n2").disabled=true;
+    avatares[1]=AVATAR_BOTI;pintarAvs();$("avs-1").classList.add("off");
+    $("aviso").textContent="Los dos nombres son iguales: jugás contra Boti.";
+  }
   nombres=[a,b];audio();jugados=[];quienEmpieza=0;nuevaPartida();
   try{localStorage.setItem("ppb-jugador",JSON.stringify({nombre:nombres[0],avatar:avatares[0],seccion:seccion}))}catch(e){}
 });
