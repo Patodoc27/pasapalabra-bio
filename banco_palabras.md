@@ -8,6 +8,7 @@
 | A | Empieza | ADULTO | adulta, adultos | la etapa final del ciclo | Etapa final del ciclo de vida, en la que el individuo ya alcanzó la madurez y puede reproducirse. |
 | A | Empieza | ADN | dna, ácido desoxirribonucleico, acido desoxirribonucleico | la doble hélice | Ácido nucleico formado por dos cadenas enlazadas en forma de doble hélice, que guarda la información hereditaria de la célula. |
 | A | Empieza | AEROBIA | aeróbica, aerobica, aeróbico, aerobico | respiración con oxígeno | Tipo de respiración celular que requiere oxígeno. |
+| A | Empieza | AGUA | aguas, h2o | la fórmula H₂O | Sustancia de fórmula H₂O que las plantas usan en la fotosíntesis y que se forma en la respiración aerobia. |
 | A | Empieza | ARN | rna, ácido ribonucleico, acido ribonucleico | la cadena simple que copia las instrucciones | Ácido nucleico formado por una sola cadena, que copia las instrucciones del material genético y participa en la fabricación de las proteínas. |
 | B | Empieza | BIOMOLÉCULA | biomoléculas | cuatro familias propias de lo vivo | Molécula característica de los seres vivos, necesaria para formar sus estructuras y cumplir sus funciones; se agrupa en cuatro familias. |
 | B | Contiene | CATABOLISMO |  | romper y liberar energía | Proceso metabólico de ruptura de moléculas complejas en piezas más pequeñas, con liberación de la energía contenida en sus enlaces. |
@@ -26,6 +27,7 @@
 | D | Empieza | DESARROLLO |  | formas y capacidades nuevas | Aparición de nuevas formas, estructuras y capacidades a lo largo de la vida del organismo. |
 | D | Empieza | DESARROLLO DIRECTO |  | el recién nacido ya se parece al maduro | Conjunto de cambios en el que el individuo joven tiene un aspecto parecido al del adulto. (Dos palabras.) |
 | D | Empieza | DESARROLLO INDIRECTO |  | crece por etapas, con metamorfosis | Conjunto de cambios en el que el individuo joven tiene un aspecto muy distinto al del adulto y cambia su cuerpo por etapas hasta parecerse a él. (Dos palabras.) |
+| D | Empieza | DIÓXIDO DE CARBONO | dioxido de carbono, co2, dióxido, dioxido | el gas que libera la respiración | Gas que se libera en la respiración aerobia y que las plantas usan en la fotosíntesis. (Tres palabras.) |
 | E | Empieza | ENERGÍA |  | no pesa, pero produce cambios | Capacidad de producir transformaciones, cambios o calor. No es un objeto físico con peso, pero permite que la materia se active y los procesos de la vida sucedan. |
 | E | Empieza | ESTÍMULO | estímulo, estimulo, estímulos, estimulos | el cambio que se detecta | Cambio del ambiente externo o interno de un ser vivo que es detectado por este y provoca en él una reacción. |
 | E | Empieza | ESTOMA | estomas | poros que respiran | Poro de la epidermis vegetal por el que la planta intercambia gases con el ambiente. |
@@ -96,4 +98,4 @@
 | P | Empieza | PLURICELULAR | pluricelulares, multicelular | muchas células en conjunto | Tipo de organismo formado por muchas células que trabajan en conjunto. |
 | U | Empieza | UNICELULAR | unicelulares | una sola célula lo hace todo | Tipo de organismo formado por una sola célula, que cumple en ella todas las funciones vitales. |
 
-Total: 90 entradas en 24 letras.
+Total: 92 entradas en 24 letras.
