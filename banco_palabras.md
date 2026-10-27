@@ -7,6 +7,7 @@
 | A | Empieza | APARATO DE GOLGI | golgi, aparato golgi | organela que empaqueta y envía | Organela con membrana que empaqueta y envía a su destino las sustancias que fabrica la célula, después de modificarlas. (Tres palabras.) |
 | A | Empieza | ADULTO | adulta, adultos | la etapa final del ciclo | Etapa final del ciclo de vida, en la que el individuo ya alcanzó la madurez y puede reproducirse. |
 | A | Empieza | ADN | dna, ácido desoxirribonucleico, acido desoxirribonucleico | la doble hélice | Ácido nucleico formado por dos cadenas enlazadas en forma de doble hélice, que guarda la información hereditaria de la célula. |
+| A | Empieza | AEROBIA | aeróbica, aerobica, aeróbico, aerobico | respiración con oxígeno | Tipo de respiración celular que requiere oxígeno. |
 | A | Empieza | ARN | rna, ácido ribonucleico, acido ribonucleico | la cadena simple que copia las instrucciones | Ácido nucleico formado por una sola cadena, que copia las instrucciones del material genético y participa en la fabricación de las proteínas. |
 | B | Empieza | BIOMOLÉCULA | biomoléculas | cuatro familias propias de lo vivo | Molécula característica de los seres vivos, necesaria para formar sus estructuras y cumplir sus funciones; se agrupa en cuatro familias. |
 | B | Contiene | CATABOLISMO |  | romper y liberar energía | Proceso metabólico de ruptura de moléculas complejas en piezas más pequeñas, con liberación de la energía contenida en sus enlaces. |
@@ -20,6 +21,7 @@
 | C | Empieza | CITOESQUELETO |  | la red de fibras que sostiene la forma | Red de fibras que sostiene la forma de la célula y mueve sus partes internas. |
 | C | Empieza | CLOROPLASTOS | cloroplasto | organelas de la fotosíntesis | Organelas con membrana que captan la luz del sol y la usan para transformar agua y dióxido de carbono en alimento. En ellas ocurre la fotosíntesis. |
 | C | Empieza | CLOROFILA | clorofila | el pigmento verde | Pigmento verde que capta la energía de la luz en la fotosíntesis. |
+| C | Empieza | CRESTA | crestas | pliegue de la mitocondria | Pliegue de la membrana interna de la mitocondria. |
 | C | Empieza | CENTRÍOLOS | centríolo, centriolos, centriolo | organelas sin membrana de la división | Organelas sin membrana que organizan las fibras que reparten el material genético cuando la célula se divide. |
 | D | Empieza | DESARROLLO |  | formas y capacidades nuevas | Aparición de nuevas formas, estructuras y capacidades a lo largo de la vida del organismo. |
 | D | Empieza | DESARROLLO DIRECTO |  | el recién nacido ya se parece al maduro | Conjunto de cambios en el que el individuo joven tiene un aspecto parecido al del adulto. (Dos palabras.) |
@@ -59,6 +61,7 @@
 | R | Empieza | RETÍCULO ENDOPLASMÁTICO LISO | retículo liso, reticulo endoplasmatico liso, rel | organela que produce grasas | Organela con membrana que produce grasas y transforma algunas sustancias tóxicas para que puedan eliminarse. (Tres palabras.) |
 | R | Empieza | RIBOSOMAS | ribosoma | organelas sin membrana que fabrican proteínas | Organelas sin membrana que fabrican las proteínas de la célula. |
 | R | Empieza | RESPUESTA | respuestas | la reacción frente al estímulo | Reacción de un ser vivo frente a un cambio detectado en su ambiente, como alejarse, cerrar una hoja o liberar una hormona. |
+| R | Empieza | RESPIRACIÓN CELULAR | respiracion celular, respiración | del alimento a la energía | Conjunto de procesos catabólicos que permiten convertir el alimento en energía. (Dos palabras.) |
 | S | Empieza | SEXUAL | reproducción sexual | dos progenitores, hijos distintos | Tipo de reproducción con dos progenitores, donde se unen sus células reproductivas y los descendientes son genéticamente distintos entre sí y respecto de los progenitores. |
 | S | Empieza | SELECCIÓN NATURAL | selección | las ventajosas se vuelven comunes | Proceso por el cual ciertas características heredables hacen que sus portadores dejen más descendencia y se vuelvan comunes. (Dos palabras.) |
 | S | Empieza | SISTEMA | sistemas | partes que funcionan como un todo | Conjunto de partes relacionadas entre sí que funcionan como un todo y que se estudia separado de su entorno. |
@@ -93,4 +96,4 @@
 | P | Empieza | PLURICELULAR | pluricelulares, multicelular | muchas células en conjunto | Tipo de organismo formado por muchas células que trabajan en conjunto. |
 | U | Empieza | UNICELULAR | unicelulares | una sola célula lo hace todo | Tipo de organismo formado por una sola célula, que cumple en ella todas las funciones vitales. |
 
-Total: 87 entradas en 24 letras.
+Total: 90 entradas en 24 letras.
