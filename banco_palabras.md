@@ -93,9 +93,10 @@
 
 | C | Empieza | CARBONO |  | el esqueleto de las biomoléculas | Elemento químico que forma el esqueleto de las biomoléculas, porque sus átomos se unen entre sí formando cadenas. |
 | H | Empieza | HIDRÓGENO | hidrogeno | el elemento más liviano | Elemento químico más liviano que existe, presente en el agua y en las biomoléculas. |
-| O | Empieza | OXÍGENO | oxigeno | el gas de la respiración celular | Elemento químico presente en el agua y en las biomoléculas, que muchos seres vivos usan en la respiración celular. |
+| O | Empieza | OXÍGENO | oxigeno | el gas de la respiración celular | Gas que las plantas liberan en la fotosíntesis y que se usa en la respiración aerobia. |
 
+| P | Empieza | PUNA |  | los Andes arriba de todo | Región de gran altura de los Andes, de clima frío y seco. |
 | P | Empieza | PLURICELULAR | pluricelulares, multicelular | muchas células en conjunto | Tipo de organismo formado por muchas células que trabajan en conjunto. |
 | U | Empieza | UNICELULAR | unicelulares | una sola célula lo hace todo | Tipo de organismo formado por una sola célula, que cumple en ella todas las funciones vitales. |
 
-Total: 92 entradas en 24 letras.
+Total: 93 entradas en 24 letras.
