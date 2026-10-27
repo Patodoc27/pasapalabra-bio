@@ -1112,7 +1112,7 @@ function rankingEnviar(){
     body:JSON.stringify({nombre:nombres[j],seccion:seccion,avatar:avatares[j],modo:enLinea?"en línea":conBot?"vs Boti":"pareja",
       aciertos:puntos[j],errores:estado.filter((s,k)=>s==="error"&&respondio[k]===j).length,
       pasadas:estado.filter((s,k)=>s==="pasada"&&respondio[k]===j).length,total:items.length,
-      porcentaje:puntaje(j),
+      porcentaje:items.length?Math.round(puntos[j]/items.length*100):0,
       tiempo_seg:Math.round(usado[j]/100)/10,inicio:letraIni})})));
 }
 async function mostrarRankingSecs(){

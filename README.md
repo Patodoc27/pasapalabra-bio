@@ -22,7 +22,7 @@ El juego es un único archivo: `index.html` (GitHub Pages).
 ### Puntaje y podio
 
 - Gana quien tiene **más aciertos**. Con la misma cantidad, queda **empate**: el desempate se juega pidiendo revancha.
-- **Puntaje = aciertos × 100 + bonus de rapidez (0 a 99)** según el reloj que le sobró. El bonus nunca llega a 100: acompaña al desempate, no le gana a un acierto.
+- **Puntaje = aciertos × 100 + bonus de rapidez (0 a 99)** según el reloj que le sobró. Es solo para el podio de la partida: en la planilla se acumulan los aciertos, como siempre.
 - Al final aparece el podio (medalla dorada 1° y plateada 2°; en empate, los dos con dorada) con lluvia de letras.
 
 ## Cómo funciona la conexión
@@ -38,4 +38,4 @@ Sin servidor propio ni base de datos: las compus se conectan por **Supabase Real
 
 ## Ranking
 
-Cada partida terminada envía a la planilla "Pasapalabra Bio — Participación" la misma fila de siempre: nombre, sección, avatar, modo, aciertos, errores, pasadas, puntaje (en la columna porcentaje), tiempo de respuesta y letra de inicio. Los modos nuevos aparecen como "en línea" o "vs Boti".
+Cada partida terminada envía a la planilla "Pasapalabra Bio — Participación" la misma fila de siempre: nombre, sección, avatar, modo, aciertos, errores, pasadas, porcentaje, tiempo de respuesta y letra de inicio. Los estudiantes acumulan aciertos partida a partida, como siempre. Los modos nuevos aparecen como "en línea" o "vs Boti".
