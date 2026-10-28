@@ -504,6 +504,20 @@ body.online .jugadores .campo:last-child{grid-column:1/-1}
 body.online #chips-sec{flex-direction:row!important}
 body.online #chips-sec .chip{width:auto!important;flex:1}
 #cod-sala::placeholder{letter-spacing:.12em;font-size:16px}
+/* novedad: el modo en línea se destaca */
+#chips-rival .chip[data-bot="2"]{position:relative;border:2px solid var(--turquesa);
+  box-shadow:0 0 14px -3px color-mix(in srgb,var(--turquesa) 60%,transparent)}
+#chips-rival .chip[data-bot="2"][aria-pressed="true"]{box-shadow:0 0 22px -2px color-mix(in srgb,var(--turquesa) 75%,transparent)}
+#chips-rival .chip[data-bot="2"]::after{content:"¡Nuevo!";position:absolute;top:-11px;right:-10px;
+  font-size:10.5px;font-weight:800;letter-spacing:.05em;color:#fff;line-height:1;
+  background:linear-gradient(135deg,var(--parina),var(--marca));border-radius:999px;padding:3px 8px 4px;
+  box-shadow:0 3px 10px -2px rgba(20,40,90,.55);animation:palpita 1.6s ease-in-out infinite}
+@keyframes palpita{50%{transform:scale(1.14)}}
+#campo-sala{box-shadow:0 0 20px -6px color-mix(in srgb,var(--marca) 55%,transparent),inset 0 0 14px -10px var(--marca);
+  border-color:color-mix(in srgb,var(--marca) 60%,#fff)}
+[data-tema="show"] #campo-sala{box-shadow:0 0 26px -4px color-mix(in srgb,var(--turquesa) 72%,transparent),inset 0 0 18px -10px var(--turquesa);
+  border-color:color-mix(in srgb,var(--turquesa) 78%,#fff)}
+[data-tema="show"] #campo-sala label{color:var(--turquesa);text-shadow:0 0 14px color-mix(in srgb,var(--turquesa) 70%,transparent)}
 .chat{display:none;margin-top:18px;background:var(--superficie2);border:1.5px solid var(--borde);border-left:6px solid var(--j2);border-radius:18px;padding:14px 16px;text-align:left;width:100%}
 .chat.on{display:block}
 .chat h3{font-family:var(--display);font-size:17px;color:var(--j2);margin-bottom:8px}
