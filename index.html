@@ -1512,8 +1512,8 @@ let letraT=null,letraInt=null,letraFin=0;
 function segundosLetra(it){
   const pal=String(it.d||"").replace(/<[^>]+>/g," ").split(/\s+/).filter(Boolean).length;
   let t=8+it.p.length/1.3+((lectura&&soportaVoz)?0:pal/2.5);
-  if(seg>0&&seg<=120)t*=.8;   // modo rápido
-  return Math.max(15,Math.min(45,Math.ceil(t/5)*5));
+  const mul=seg>0?(seg>=360?1.25:seg>120?1:.8):1, cap=seg>=360?55:seg>120?45:35;   // más reloj, más barra
+  return Math.max(15,Math.min(cap,Math.ceil(t*mul/5)*5));
 }
 function correrBarra(t){
   const b=$("barra-turno"),i=$("barra-turno-i");clearInterval(letraInt);
