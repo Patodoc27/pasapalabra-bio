@@ -16,7 +16,7 @@ El juego es un único archivo: `index.html` (GitHub Pages).
 
 ### Tiempos
 
-- **Cada jugador tiene su propio reloj**: Normal · 4 min, Rápido · 3 min cada uno, que corre solo durante su turno. Si a uno se le termina, el otro sigue con las letras que quedan. También hay **Sin reloj · práctica**.
+- **Cada jugador tiene su propio reloj**: Normal · 6 min, Intermedio · 4 min, Intenso · 2 min cada uno (más "Sin reloj · práctica"), que corre solo durante su turno. Si a uno se le termina, el otro sigue con las letras que quedan. También hay **Sin reloj · práctica**.
 - **Cada letra tiene su propio tiempo** (barra bajo la respuesta), calculado para estudiantes de 12-13 años: leer la definición, pensar y escribir la palabra. Entre 15 y 45 s. Si se agota, la letra vuelve como pasapalabra; si ya había vuelto, cuenta como error.
 
 ### Puntaje y podio

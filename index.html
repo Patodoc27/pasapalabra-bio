@@ -39,27 +39,35 @@
   --alfa-letras:.72;
 }
 [data-tema="show"]{
-  /* ---- SHOW · tema oscuro ---- */
-  --fondo0:#060B22;--fondo1:#0C1638;
-  --au1:rgba(34,227,214,.22);--au2:rgba(255,140,70,.18);--au3:rgba(157,140,255,.20);
-  --dots:rgba(190,214,255,.20);
-  --carta:linear-gradient(160deg,#131E49,#0B1332);
-  --brillo:inset 0 1px 0 rgba(255,255,255,.10);
-  --borde:rgba(148,183,255,.18);--borde2:rgba(148,183,255,.34);
-  --tinta:#EDF3FF;--suave:#B9C9E8;--gris:#9DB0D4;--tenue:#7288B0;
-  --superficie:rgba(255,255,255,.05);--superficie2:rgba(255,255,255,.045);
-  --input-bg:rgba(8,14,38,.6);--placeholder:#5F74A0;
-  --menu-bg:#101A3F;--burb:#101A3F;--badge-bg:#0E1839;
-  --overlay-bg:rgba(6,11,34,.85);
-  --marca:#7C9BFF;--turquesa:#22E3D6;--parina:#FF4FA3;--sol:#9FB4FF;--ambar:#8FA8F0;--lima:#2BD8C8;--uva:#6F8FEA;
+  /* ---- SHOW · tema oscuro: "noche de show", vivido, no apagado ---- */
+  --fondo0:#0A0E2E;--fondo1:#17245C;
+  --au1:rgba(34,227,214,.34);--au2:rgba(255,140,70,.26);--au3:rgba(157,140,255,.32);
+  --dots:rgba(190,214,255,.30);
+  --carta:linear-gradient(160deg,#22316F,#141E4E);
+  --brillo:inset 0 1px 0 rgba(255,255,255,.16);
+  --borde:rgba(158,192,255,.38);--borde2:rgba(158,192,255,.62);
+  --tinta:#F4F8FF;--suave:#D3DFF7;--gris:#AFC4E8;--tenue:#8FA6D2;
+  --superficie:rgba(255,255,255,.11);--superficie2:rgba(255,255,255,.085);
+  --input-bg:rgba(10,18,52,.72);--placeholder:#8FA6D0;
+  --menu-bg:#1B2A66;--burb:#1D2E6E;--badge-bg:#1A2A66;
+  --overlay-bg:rgba(8,13,40,.86);
+  --marca:#8FB0FF;--turquesa:#22E3D6;--parina:#FF4FA3;--sol:#9FB4FF;--ambar:#B7C8FF;--lima:#2BD8C8;--uva:#7E9CF5;
   --j1:#22E3D6;--j2:#5BA8FF;--jug:#22E3D6;
   --btn-txt:#04182A;
-  --letra-bg:rgba(255,255,255,.16);--letra-txt:#DCE7FB;--letra-borde:rgba(150,180,235,.55);
-  --anillo:rgba(148,183,255,.22);
-  --logo-fondo:radial-gradient(circle at 32% 28%,rgba(34,227,214,.28),rgba(9,16,42,.9));
+  --letra-bg:rgba(255,255,255,.24);--letra-txt:#FFFFFF;--letra-borde:rgba(172,202,255,.8);
+  --anillo:rgba(160,195,255,.5);
+  --logo-fondo:radial-gradient(circle at 32% 28%,rgba(34,227,214,.4),rgba(13,21,60,.9));
   --sombra:0 26px 70px -30px rgba(0,0,0,.85);
-  --alfa-letras:.5;
+  --alfa-letras:.85;
 }
+/* brillos y contraste extra solo en modo show */
+[data-tema="show"] .letra{text-shadow:0 1px 9px rgba(140,180,255,.4)}
+[data-tema="show"] .letra.activa{box-shadow:0 0 0 3px #fff,0 0 26px 8px color-mix(in srgb,var(--jug) 70%,transparent)}
+[data-tema="show"] .chip{color:var(--tinta);font-weight:600}
+[data-tema="show"] .chip[aria-pressed=true]{color:#04182A;text-shadow:none}
+[data-tema="show"] .campo{border-color:var(--borde)}
+[data-tema="show"] .stat .bur-stat,[data-tema="show"] .icobtn{box-shadow:0 0 18px -6px color-mix(in srgb,var(--c,var(--uva)) 60%,transparent)}
+[data-tema="show"] .chat{background:var(--superficie)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{color-scheme:light}
 html[data-tema="show"]{color-scheme:dark}
@@ -549,7 +557,7 @@ body.online #chips-sec .chip{width:auto!important;flex:1}
         <li>Cada acierto se pinta del color de quien respondió ✓, el error va en rosa ✕ y el pasapalabra en celeste ↻.</li>
         <li>Las letras celestes vuelven y las responde quien tenga el turno en ese momento.</li>
         <li>El reloj se detiene mientras se pasan el teclado y mientras se lee el resultado de la jugada.</li>
-        <li>Cada jugador tiene su propio reloj (4 min en Normal, 3 en Rápido) y corre solo durante su turno. Si a uno se le termina, el otro sigue con las letras que quedan hasta cerrar el rosco o quedarse también sin tiempo.</li>
+        <li>Cada jugador tiene su propio reloj (6 min en Normal, 4 en Intermedio, 2 en Intenso) y corre solo durante su turno. Si a uno se le termina, el otro sigue con las letras que quedan hasta cerrar el rosco o quedarse también sin tiempo.</li>
         <li>Cada letra tiene su propio tiempo (la barra debajo de la respuesta), calculado según lo que lleva leer la definición, pensar y escribir esa palabra. Si se termina, la letra vuelve como pasapalabra; si ya había vuelto, cuenta como error.</li>
         <li>En línea cada uno juega desde su compu: mientras responde tu rival, ves y escuchás su definición, lo que va escribiendo y si acierta. Si dice pasapalabra, la respuesta no se muestra. Gana quien acierta más; si empatan, el desempate es la revancha.</li>
         <li>Cada partida sortea palabras y letra de arranque: nunca se repite el mismo rosco ni el mismo arranque.</li>
@@ -587,8 +595,9 @@ body.online #chips-sec .chip{width:auto!important;flex:1}
     <div style="margin-top:20px">
       <label>Modo</label>
       <div class="chips" id="chips-tiempo">
-        <button class="chip" type="button" data-seg="240" aria-pressed="true">Normal · 4 min cada uno</button>
-        <button class="chip" type="button" data-seg="180" aria-pressed="false">Rápido · 3 min cada uno</button>
+        <button class="chip" type="button" data-seg="360" aria-pressed="true">Normal · 6 min cada uno</button>
+        <button class="chip" type="button" data-seg="240" aria-pressed="false">Intermedio · 4 min cada uno</button>
+        <button class="chip" type="button" data-seg="120" aria-pressed="false">Intenso · 2 min cada uno</button>
         <button class="chip" type="button" data-seg="0" aria-pressed="false">Sin reloj · práctica</button>
       </div>
       <p style="color:var(--gris);font-size:13.5px;margin-top:10px">Cada jugador tiene su propio reloj, que corre solo en su turno. Además, cada letra tiene su propio tiempo: el que necesita un estudiante de 12-13 años para leer la definición, pensar y escribir esa palabra (entre 15 y 45 segundos). En línea, el modo lo elige quien crea la sala.</p>
@@ -663,8 +672,8 @@ body.online #chips-sec .chip{width:auto!important;flex:1}
       </div>
       <aside class="lateral">
         <div class="stat relojes"><span class="lbl">Relojes</span>
-          <div class="duo-reloj"><div><span class="bur-stat rj" id="tiempo0" style="--c:var(--j1)">04:00</span><small id="tnom0"></small></div>
-          <div><span class="bur-stat rj" id="tiempo1" style="--c:var(--j2)">04:00</span><small id="tnom1"></small></div></div></div>
+          <div class="duo-reloj"><div><span class="bur-stat rj" id="tiempo0" style="--c:var(--j1)">06:00</span><small id="tnom0"></small></div>
+          <div><span class="bur-stat rj" id="tiempo1" style="--c:var(--j2)">06:00</span><small id="tnom1"></small></div></div></div>
         <div class="stat ok"><span class="lbl">Aciertos</span><span class="bur-stat" id="m-ok">0</span></div>
         <div class="stat er"><span class="lbl">Falladas</span><span class="bur-stat" id="m-er">0</span></div>
         <div class="stat re"><span class="lbl">Restantes</span><span class="bur-stat" id="m-re">25</span></div>
@@ -918,7 +927,7 @@ const AVATAR_BOTI=AVATARES.length-1;
 const ava=j=>'<img class="ava-p" src="'+AVATARES[avatares[j]].img+'" alt="">';
 const avaR=i=>{const a=AVATARES[+i];return a?'<img class="ava-r" src="'+a.img+'" alt="">':'<span></span>';};
 const avaO=j=>'<img class="ava-o" src="'+AVATARES[avatares[j]].img+'" alt="">';
-let seg=240,rel=[240,240],usado=[0,0],tIni=0,sinReloj=false,cron=null,jugando=false,bloqueado=false,arranque=true;
+let seg=360,rel=[360,360],usado=[0,0],tIni=0,sinReloj=false,cron=null,jugando=false,bloqueado=false,arranque=true;
 let sonido=true,recuperacion=false,pendientesRepaso=[],conBot=false,intentos=0,timers=[];
 const modoPractica=()=>sinReloj||recuperacion;
 const esBot=()=>conBot&&turno===1;
@@ -1483,7 +1492,7 @@ let letraT=null,letraInt=null,letraFin=0;
 function segundosLetra(it){
   const pal=String(it.d||"").replace(/<[^>]+>/g," ").split(/\s+/).filter(Boolean).length;
   let t=8+it.p.length/1.3+((lectura&&soportaVoz)?0:pal/2.5);
-  if(seg>0&&seg<=180)t*=.8;   // modo rápido
+  if(seg>0&&seg<=120)t*=.8;   // modo rápido
   return Math.max(15,Math.min(45,Math.ceil(t/5)*5));
 }
 function correrBarra(t){
@@ -1708,7 +1717,7 @@ const red={sala:"",rol:"",canal:null,rival:null,rivalAqui:false,ronda:0,rondaT:0
   quiero:false,rivalQuiere:false,lobby:null,salas:{},buscarT:null,ausenteT:null,jug:null,secRival:""};
 let modoOnline=true,enLinea=false,yo=0,solo=false,partidaViva=false;
 const miTurno=()=>!enLinea||turno===yo;
-const nombreModo=s=>+s===0?"Sin reloj · práctica":+s<=180?"Rápido · 3 min cada uno":"Normal · 4 min cada uno";
+const nombreModo=s=>+s===0?"Sin reloj · práctica":+s<=120?"Intenso · 2 min cada uno":+s<=240?"Intermedio · 4 min cada uno":"Normal · 6 min cada uno";
 FRASES.riv=["¿La sabrá?","Shh, está pensando…","Ojo que sabe…","Atento a la vuelta","A ver qué responde…","Tu turno ya llega"];
 
 function redEnviar(ev,p){if(red.canal)red.canal.enviar(ev,Object.assign({ronda:red.ronda},p||{}));}
