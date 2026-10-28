@@ -552,17 +552,16 @@ body.online #chips-sec .chip{width:auto!important;flex:1}
     <details open>
       <summary>Reglas del juego</summary>
       <ul>
-        <li>El turno pasa siempre al otro jugador, incluso cuando dicen Pasapalabra.</li>
-        <li>De a dos en la misma compu, la consigna aparece recién cuando el jugador de turno toca «Listo».</li>
-        <li>Cada acierto se pinta del color de quien respondió ✓, el error va en rosa ✕ y el pasapalabra en celeste ↻.</li>
-        <li>Las letras celestes vuelven y las responde quien tenga el turno en ese momento.</li>
-        <li>El reloj se detiene mientras se pasan el teclado y mientras se lee el resultado de la jugada.</li>
-        <li>Cada jugador tiene su propio reloj (6 min en Normal, 4 en Intermedio, 2 en Intenso) y corre solo durante su turno. Si a uno se le termina, el otro sigue con las letras que quedan hasta cerrar el rosco o quedarse también sin tiempo.</li>
-        <li>Cada letra tiene su propio tiempo (la barra debajo de la respuesta), calculado según lo que lleva leer la definición, pensar y escribir esa palabra. Si se termina, la letra vuelve como pasapalabra; si ya había vuelto, cuenta como error.</li>
-        <li>En línea cada uno juega desde su compu: mientras responde tu rival, ves y escuchás su definición, lo que va escribiendo y si acierta. Si dice pasapalabra, la respuesta no se muestra. Gana quien acierta más; si empatan, el desempate es la revancha.</li>
-        <li>Cada partida sortea palabras y letra de arranque: nunca se repite el mismo rosco ni el mismo arranque.</li>
-        <li>Las palabras se escriben con tilde y con ñ. Si la palabra es la correcta pero está mal acentuada, avisa y se puede corregir sin perder la letra.</li>
-        <li>En modo práctica, sin reloj, el primer error da una pista y una segunda oportunidad.</li>
+        <li>Por turnos: después de cada letra juega el otro, incluso al decir pasapalabra.</li>
+        <li>Acierto ✓ en el color de quien respondió · error ✕ en rosa · pasapalabra ↻ en celeste (la letra vuelve).</li>
+        <li>De a dos en la misma compu: el jugador de turno toca «Listo» para ver su consigna.</li>
+        <li>Cada uno tiene su reloj (6 · 4 · 2 min según el modo) que corre solo en su turno; si se acaba, el otro cierra el rosco.</li>
+        <li>Cada letra tiene un tiempo límite (la barra): si se acaba, vuelve como pasapalabra; si ya había vuelto, es error.</li>
+        <li>En línea ves y escuchás la definición del rival y lo que escribe; con pasapalabra no se muestra la respuesta.</li>
+        <li>Gana quien acierta más; si empatan, el desempate es la revancha.</li>
+        <li>Tilde y ñ cuentan. Si errás solo la acentuación, avisa y corregís sin perder la letra.</li>
+        <li>Cada partida sortea palabras y letra de arranque: nunca se repite el rosco.</li>
+        <li>En práctica sin reloj, el primer error da una pista y otra oportunidad.</li>
       </ul>
     </details>
     <div class="rosco-preview"><div id="rosco-mini"></div></div>
@@ -1148,7 +1147,7 @@ $("chips-rival").addEventListener("click",e=>{const b=e.target.closest(".chip");
   $("lab2").textContent=conBot?"Rival":"Jugador 2";
   $("n2").value=conBot?BOT.nombre:"";$("n2").disabled=conBot;
   if(conBot)avatares[1]=AVATAR_BOTI;
-  else if(avatares[1]===AVATAR_BOTI)avatares[1]=(avatares[0]+1)%6;
+  else if(avatares[1]===AVATAR_BOTI||avatares[1]===avatares[0])avatares[1]=(avatares[0]+1)%6;
   pintarAvs();
   $("avs-1").classList.toggle("off",conBot);});
 $("chips-sec").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;
@@ -1157,13 +1156,14 @@ $("chips-sec").addEventListener("click",e=>{const b=e.target.closest(".chip");if
 /* pickers de avatar: los 6 estudiantes se eligen (el último de AVATARES es el robot de Boti);
    un avatar elegido por un jugador queda bloqueado para el otro */
 function pintarAvs(){
+  const bloq=!document.body.classList.contains("online");   // el bloqueo por el otro jugador solo vale "de a dos" (misma pantalla)
   [0,1].forEach(j=>{const cont=$("avs-"+j);
     [...cont.children].forEach((x,k)=>{
       x.classList.toggle("sel",k===avatares[j]);
-      x.classList.toggle("off",k===avatares[1-j]);});});}
+      x.classList.toggle("off",bloq&&k===avatares[1-j]);});});}
 [0,1].forEach(j=>{const cont=$("avs-"+j);
   AVATARES.slice(0,-1).forEach((a,i)=>{const im=document.createElement("img");im.src=a.img;im.alt="Avatar "+(i+1);
-    im.addEventListener("click",()=>{if(i===avatares[1-j])return;avatares[j]=i;pintarAvs();});
+    im.addEventListener("click",()=>{if(!document.body.classList.contains("online")&&i===avatares[1-j])return;avatares[j]=i;pintarAvs();});
     cont.appendChild(im);});});
 pintarAvs();
 
@@ -1735,6 +1735,7 @@ function modoEnLinea(on){
   $("btn-jugar").textContent=on?textoEntrar():"Sortear rosco y empezar";
   [...document.querySelectorAll('label[for="n1"]')].forEach(l=>l.textContent=on?"Tu nombre":"Jugador 1");
   if(on)lobbyAbrir();else lobbyCerrar();
+  pintarAvs();
 }
 function textoEntrar(){const c=$("cod-sala").value.toUpperCase().replace(/[^A-Z0-9]/g,"");
   return c.length===4?"Entrar a la sala "+c:"Crear sala y esperar al rival";}
