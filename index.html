@@ -455,6 +455,8 @@ body.online #campo-n2{display:none}
 .sala-nota{color:var(--gris);font-size:13px;margin-top:8px;line-height:1.4}
 .salas-abiertas{display:flex;flex-direction:column;gap:6px;margin-top:10px;max-height:200px;overflow:auto}
 .salas-tit{display:block;color:var(--gris);font-size:12.5px}
+.salas-abiertas.nueva .sala-item{animation:salaNueva 1.8s ease-out}
+@keyframes salaNueva{0%,60%{box-shadow:0 0 0 3px color-mix(in srgb,var(--turquesa) 80%,#fff),0 0 22px color-mix(in srgb,var(--turquesa) 70%,transparent)}100%{box-shadow:none}}
 .sala-item{display:grid;grid-template-columns:34px 1fr auto;gap:9px;align-items:center;background:var(--superficie);border:1.5px solid var(--borde);
   border-radius:12px;padding:6px 10px;cursor:pointer;font:inherit;font-size:14.5px;font-weight:700;color:var(--tinta);text-align:left;transition:.15s}
 .sala-item:hover{border-color:var(--j2);transform:translateY(-1px)}
@@ -1761,8 +1763,22 @@ function textoEntrar(){const c=$("cod-sala").value.toUpperCase().replace(/[^A-Z0
   return c.length===4?"Entrar a la sala "+c:"Crear sala y esperar al rival";}
 $("cod-sala").addEventListener("input",()=>{const i=$("cod-sala");i.value=i.value.toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,4);$("btn-jugar").textContent=textoEntrar();});
 $("cod-sala").addEventListener("keydown",e=>{if(e.key==="Enter")$("btn-jugar").click();});
-function lobbyAbrir(){if(red.lobby)return;
-  red.lobby=rtCanal("egd-lobby",{pres:m=>{red.salas=m;pintarSalas();}});}
+let lobbyPrimera=true,salaAnuncia=null;
+function lobbyAbrir(){if(red.lobby)return;lobbyPrimera=true;
+  red.lobby=rtCanal("egd-lobby",{pres:m=>{
+    const antes=lobbyPrimera?m:(red.salas||{});lobbyPrimera=false;red.salas=m;pintarSalas();
+    if(Object.keys(m).some(k=>m[k]&&m[k].c&&m[k].id!==ID&&!antes[k]))avisoSalaNueva();}});}
+function avisoSalaNueva(){
+  const ini=document.getElementById("p-inicio");if(!ini||!ini.classList.contains("activa"))return;
+  tono(784,.14,"triangle",.16);tono(1175,.16,"triangle",.16,.12);tono(1568,.3,"triangle",.16,.26);
+  const s=$("salas-abiertas");if(s){s.classList.remove("nueva");void s.offsetWidth;s.classList.add("nueva");setTimeout(()=>s.classList.remove("nueva"),1800);}
+}
+function anunciar(v){
+  clearInterval(salaAnuncia);salaAnuncia=null;
+  if(v)salaAnuncia=setInterval(()=>{
+    if(red.rol==="host"&&!red.rival&&red.lobby&&red.lobby.meta)red.lobby.track(red.lobby.meta);
+    else{clearInterval(salaAnuncia);salaAnuncia=null;}},12000);
+}
 function lobbyCerrar(){if(red.lobby&&!red.sala){red.lobby.salir();red.lobby=null;}}
 function pintarSalas(){
   const cont=$("salas-abiertas");if(!cont)return;
@@ -1797,7 +1813,7 @@ function redCrear(nom,av){
   const code=codigoNuevo();redAbrirCanal(code);
   red.canal.track({id:ID,rol:"host",n:nom,a:av,s:seccion});
   lobbyAbrir();red.lobby.track({id:ID,c:code,n:nom,a:av,s:seccion,sg:seg,t:Date.now()});
-  guardarSesion();pintarSala();mostrar("p-sala");
+  anunciar(true);guardarSesion();pintarSala();mostrar("p-sala");
 }
 function redUnirse(code,nom,av){
   redReset();red.rol="guest";yo=1;enLinea=false;
@@ -1811,7 +1827,7 @@ function redUnirse(code,nom,av){
 }
 function redReset(){
   if(red.canal){red.canal.salir();}
-  if(red.lobby)red.lobby.untrack();
+  if(red.lobby)red.lobby.untrack();anunciar(false);
   clearTimeout(red.buscarT);clearTimeout(red.ausenteT);
   chat.lista=[];
   Object.assign(red,{sala:"",rol:"",canal:null,rival:null,rivalAqui:false,ronda:0,rondaT:0,seq:0,pend:null,quiero:false,rivalQuiere:false,jug:null,secRival:""});
@@ -1848,7 +1864,7 @@ function redAceptar(g){
   red.rival=g.id;red.secRival=limpiaSec(g.s);
   nombres[1]=limpiaNom(g.n)||"Rival";avatares[1]=avOk(g.a);
   if(avatares[1]===avatares[0])avatares[1]=(avatares[0]+1)%(AVATARES.length-1);
-  if(red.lobby)red.lobby.untrack();
+  if(red.lobby)red.lobby.untrack();anunciar(false);
   red.canal.enviar("bien",{para:g.id,hn:nombres[0],ha:avatares[0],hs:seccion,ga:avatares[1],gn:nombres[1],sg:seg});
   guardarSesion();pintarSala();
 }
@@ -1871,7 +1887,7 @@ function redRivalPresente(aqui){
 function redLiberar(){   // el host vuelve a esperar rival
   red.rival=null;red.rivalAqui=false;nombres[1]="";
   if(red.lobby)red.lobby.track({id:ID,c:red.sala,n:nombres[0],a:avatares[0],s:seccion,sg:seg,t:Date.now()});
-  guardarSesion();pintarSala();
+  anunciar(true);guardarSesion();pintarSala();
 }
 $("banda-btn").addEventListener("click",()=>{banda("");
   if(enLinea&&partidaViva)terminar("Se cortó la conexión de "+(nombres[1-yo]||"tu rival")+".");});
@@ -2118,7 +2134,7 @@ $("chat-rapidas").addEventListener("click",e=>{const b=e.target.closest(".chip")
   const nom=limpiaNom(g.nombre)||limpiaNom($("n1").value);if(!nom)return;
   if(g.rol==="host"){redReset();red.rol="host";yo=0;nombres=[nom,""];redAbrirCanal(g.sala);red.rival=g.rival||null;
     red.canal.track({id:ID,rol:"host",n:nom,a:avatares[0],s:seccion});
-    if(!red.rival){lobbyAbrir();red.lobby.track({id:ID,c:g.sala,n:nom,a:avatares[0],s:seccion,sg:seg,t:Date.now()});}}
+    if(!red.rival){lobbyAbrir();red.lobby.track({id:ID,c:g.sala,n:nom,a:avatares[0],s:seccion,sg:seg,t:Date.now()});anunciar(true);}}
   else{redReset();red.rol="guest";yo=1;nombres=["",nom];redAbrirCanal(g.sala);red.rival=g.rival||null;
     red.canal.track({id:ID,rol:"guest",n:nom,a:avatares[0],s:seccion});avatares=[0,avatares[0]];}
   red.reanudar=true;pintarSala("Volviendo a la sala "+g.sala+"…");mostrar("p-sala");
