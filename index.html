@@ -91,12 +91,12 @@ input{font:inherit;color:inherit}
   font:800 12px/1 "Nunito",sans-serif;letter-spacing:.6px;padding:7px 12px;border-radius:999px;border:2px solid rgba(255,255,255,.3)}
 
 /* ===== 01 INICIO ===== */
-#p-inicio .logo-grande{position:absolute;left:50%;top:70px;width:1000px;transform:translateX(-50%);
+#p-inicio .logo-grande{position:absolute;left:50%;top:60px;width:850px;transform:translateX(-50%);
   filter:drop-shadow(0 14px 0 rgba(14,42,71,.35)) drop-shadow(0 0 40px rgba(255,255,255,.45));animation:flota 4s ease-in-out infinite}
 @keyframes flota{50%{transform:translateX(-50%) translateY(-10px)}}
-#p-inicio .saludo{position:absolute;left:0;right:0;top:612px;text-align:center;font-family:"Lilita One";font-size:34px;color:#fff;
+#p-inicio .saludo{position:absolute;left:0;right:0;top:540px;text-align:center;font-family:"Lilita One";font-size:34px;color:#fff;
   text-shadow:0 3px 0 var(--tinta),0 0 3px var(--tinta)}
-#btn-jugar{position:absolute;left:50%;top:665px;transform:translateX(-50%);font-size:76px;padding:22px 110px;border-width:7px;
+#btn-jugar{position:absolute;left:50%;top:600px;transform:translateX(-50%);font-size:76px;padding:22px 110px;border-width:7px;
   box-shadow:0 12px 0 var(--tinta),inset 0 6px 0 rgba(255,255,255,.45),0 0 0 10px rgba(255,255,255,.28)}
 #btn-jugar:hover{transform:translateX(-50%) translateY(-3px)}
 #btn-jugar:active{transform:translateX(-50%) translateY(8px)}
@@ -432,7 +432,9 @@ input{font:inherit;color:inherit}
 .podio-col.p2 .peldano{background:linear-gradient(180deg,#DCE6F0,#AEBFCE);padding:4px}
 #aportes{font-weight:800;font-size:20px;color:#3B5675;display:none}
 #aportes.visible{display:block}
-#p-final .repaso-mini{position:absolute;left:50%;bottom:120px;transform:translateX(-50%);width:1160px;max-height:300px;overflow:auto;padding:18px 40px;text-align:left}
+#p-repaso .repaso-mini{position:absolute;left:50%;top:118px;transform:translateX(-50%);width:min(1180px,94vw);max-height:76vh;overflow:auto;padding:24px 40px;text-align:left}
+#p-repaso .repaso-tit{font-family:"Lilita One";font-weight:400;font-size:34px;color:var(--uva2);margin-bottom:10px}
+#p-repaso .repaso-mini .pie{margin-top:16px;text-align:center}
 #p-final .res-bot{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);display:flex;gap:18px}
 .fin-meta{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);font-weight:800;font-size:17px;color:#fff;text-shadow:0 2px 4px rgba(14,42,71,.6)}
 .grupo{margin-bottom:12px}.grupo h3{font-family:"Lilita One";font-size:24px;color:var(--tinta2);margin-bottom:6px}
@@ -766,17 +768,26 @@ input{font:inherit;color:inherit}
       <div class="chips" id="chips-meta"><button class="chip opc">Recordar los nombres</button><button class="chip opc">Entender las pistas</button><button class="chip opc">Confundir conceptos parecidos</button></div>
     </div>
   </div>
-  <div class="tarjeta repaso-mini" id="repaso-card"><div id="grupos"></div>
-    <div class="ranking" id="ranking-final" style="display:none"><h3>Ranking del cole</h3><div id="ranking-final-lista"></div></div>
-  </div>
   <div class="res-bot">
     <button class="btn uva chico" id="btn-resultados"><span data-ico="ranking"></span>Resultados y ranking</button>
     <button class="btn lima" id="btn-otra"><span data-ico="pasa"></span>Pedir revancha</button>
     <button class="btn hueca chico" id="btn-practicar">Practicar las que costaron</button>
+    <button class="btn hueca chico" id="btn-repaso">Repasar las palabras</button>
     <button class="btn hueca chico" id="btn-copiar">Copiar resultado</button>
     <button class="btn chico" id="btn-inicio"><span data-ico="casa"></span>Inicio</button>
   </div>
   <p class="fin-meta">Sección <b id="f-sec">—</b> · tiempo usado <b id="f-tiempo">—</b></p>
+ </div>
+</section>
+
+<!-- ===== REPASO ===== -->
+<section class="pantalla" id="p-repaso" data-fondo="final">
+ <div class="escena">
+  <div class="herr-sup"><button class="ico-btn" data-son aria-label="Sonido"></button></div>
+  <div class="tarjeta repaso-mini" id="repaso-card">
+    <h3 class="repaso-tit">Para repasar</h3><div id="grupos"></div>
+    <div class="pie"><button class="btn chico" id="btn-volver-repaso"><span data-ico="atras"></span>Volver al resultado</button></div>
+  </div>
  </div>
 </section>
 
@@ -998,7 +1009,7 @@ const TODAS=Object.values(POOL).flat().map(x=>x.p);
    En cada partida se sortea la acertividad de Boti: 95 %, 85 %, 80 % o 75 %,
    sin avisar cuál tocó. Pasa el 12 % y nunca acierta más de tres seguidas. */
 const BOT={ok:0.80,pasa:0.12,racha:3,nombre:"Boti"};
-const ACIERTE_BOT=[0.95,0.85,0.80,0.75];
+const ACIERTE_BOT=[0.80,0.85,0.90,0.95,1.00];
 let rachaBot=0,rachas=[0,0];
 
 /* ===== ESTADO ===== */
@@ -1203,7 +1214,7 @@ function rankingFila(r,i,sinSec){
     '<span class="pts">'+r.aciertos+' aciertos</span></div>';
 }
 function rankingPintar(lista){
-  [["ranking-inicio","ranking-inicio-lista",6],["ranking-final","ranking-final-lista",5]].forEach(x=>{
+  [["ranking-inicio","ranking-inicio-lista",6]].forEach(x=>{
     const c=$(x[0]);if(!c)return;
     if(!rankingOn()||!lista){c.style.display="none";return;}
     c.style.display="";
@@ -1238,6 +1249,8 @@ async function mostrarRankingSecs(){
       porSec[s].map((r,i)=>rankingFila(r,i,true)).join("")+'</div>';}).join("");
 }
 $("btn-resultados").addEventListener("click",()=>{audio();cargarRank();});
+$("btn-repaso").addEventListener("click",()=>{audio();mostrar("p-repaso");});
+$("btn-volver-repaso").addEventListener("click",()=>{audio();mostrar("p-final");});
 $("btn-volver-ranking").addEventListener("click",()=>{audio();mostrar("p-final");});
 rankingActualizar();
 const fmt=s=>String(Math.floor(Math.max(s,0)/60)).padStart(2,"0")+":"+String(Math.max(s,0)%60).padStart(2,"0");
@@ -1438,22 +1451,28 @@ function jugadaBot(){
   const texto=acierta?it.p:(pasa?"":erroneaBot(it));
   /* Boti empieza a pensar apenas aparece su consigna, en paralelo con la voz;
      escribe cuando la lectura termina, si ya pasaron sus ~6s de "pensada" */
-  const espera=6000+Math.random()*1200,t0=Date.now();
   const disparar=()=>{
     if(pasa){rachaBot=0;resolverBot("pasa");return;}
-    tipear(texto,()=>luego(()=>resolverBot(acierta?"ok":"mal"),450));};
-  alTerminarVoz(()=>{if(jugando&&esBot())luego(disparar,Math.max(0,espera-(Date.now()-t0)));});
+    tipearBot(texto,()=>luego(()=>resolverBot(acierta?"ok":"mal"),450));};
+  alTerminarVoz(()=>{if(jugando&&esBot())luego(disparar,2200+Math.random()*1300);});
 }
 function erroneaBot(it){
   const otras=TODAS.filter(p=>p!==it.p&&!casiAcepta(it,p));
   return otras[Math.floor(Math.random()*otras.length)];
 }
-function tipear(txt,fin){
-  $("entrada").value="";let i=0;
+function tipearBot(txt,fin){
+  /* tipeo humano: va escribiendo letra por letra y a veces se equivoca,
+     borra lo malo y lo corrige antes de mandar */
+  const E=$("entrada");E.value="";let i=0;
   const paso=()=>{
     if(i>=txt.length)return fin();
-    $("entrada").value+=txt[i++];if(i%2===0)sTecla();
-    luego(paso,55+Math.random()*45);
+    if(i>0&&i<txt.length-1&&Math.random()<0.05){
+      const mal="ABCDEFGHJLKMNOPQRSTUVXYZ"[Math.floor(Math.random()*22)];
+      E.value+=mal;sTecla();
+      return luego(()=>{E.value=E.value.slice(0,-1);
+        luego(paso,140+Math.random()*140);},280+Math.random()*220);}
+    E.value+=txt[i++];if(i%2===0)sTecla();
+    luego(paso,70+Math.random()*90);
   };paso();
 }
 function resolverBot(res){
