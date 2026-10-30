@@ -433,6 +433,7 @@ input{font:inherit;color:inherit}
 #p-final .podio-det{font-weight:800;font-size:16px;color:#fff;text-shadow:0 2px 0 rgba(14,42,71,.9)}
 #p-final .peldano{display:none}
 #p-final .podio-pos{font-family:"Lilita One";font-size:24px;color:#FFD93D;text-shadow:0 3px 0 var(--tinta),0 0 12px rgba(255,217,61,.7)}
+#p-final .fin-cred{left:auto;right:18px;bottom:6px;transform:none;font-size:13px;padding:5px 14px;text-align:right}
 #p-final .podio-col.p1 .ava-pod{box-shadow:0 0 0 9px rgba(255,215,0,.6),0 0 52px rgba(255,215,0,.85)}
 #p-final .podio-col.p1 .medalla{width:84px}
 #p-final .podio-col.p1::before{content:"¡GANADOR!";font-family:"Lilita One";font-size:24px;color:#FFD93D;text-shadow:0 3px 0 var(--tinta),0 0 14px rgba(255,217,61,.8);letter-spacing:1px}
@@ -778,12 +779,7 @@ input{font:inherit;color:inherit}
     <p class="eyebrow" id="motivo">Rosco cerrado</p>
     <div class="puntaje"><span id="f-ok">0</span>/<span id="f-tot">24</span><small id="f-rot">Conceptos recuperados</small></div>
     <p class="veredicto" id="veredicto"></p>
-    <div id="aportes"></div>
-    <p style="margin-top:8px"><button class="btn hueca chico" id="btn-aportes">Ver conceptos resueltos por cada integrante</button></p>
     <div class="chat-slot" id="slot-final"></div>
-    <div class="meta" id="meta"><p id="meta-preg">Antes de repasar: ¿qué les costó más?</p>
-      <div class="chips" id="chips-meta"><button class="chip opc">Recordar los nombres</button><button class="chip opc">Entender las pistas</button><button class="chip opc">Confundir conceptos parecidos</button></div>
-    </div>
   </div>
   <div class="duelo podio" id="duelo" style="display:none"></div>
   <div class="res-bot">
@@ -791,10 +787,11 @@ input{font:inherit;color:inherit}
     <button class="btn lima" id="btn-otra"><span data-ico="pasa"></span>Pedir revancha</button>
     <button class="btn hueca chico" id="btn-practicar">Practicar las que costaron</button>
     <button class="btn hueca chico" id="btn-repaso">Repasar las palabras</button>
-    <button class="btn hueca chico" id="btn-copiar">Copiar resultado</button>
+
     <button class="btn chico" id="btn-inicio"><span data-ico="casa"></span>Inicio</button>
   </div>
   <p class="fin-meta">Sección <b id="f-sec">—</b> · tiempo usado <b id="f-tiempo">—</b></p>
+  <p class="pill-cred fin-cred">Creado por <b>Patricia Inés Castro</b> en colaboración con Devin (Cognition) y Claude (Anthropic)</p>
  </div>
 </section>
 
@@ -1314,8 +1311,6 @@ $("chips-tiempo").addEventListener("click",e=>{const b=e.target.closest(".chip")
 if($("chips-sonido"))$("chips-sonido").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;
   [...$("chips-sonido").children].forEach(c=>c.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");
   sonido=b.dataset.son==="1";pintarSonido();});
-$("chips-meta").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;
-  [...$("chips-meta").children].forEach(c=>c.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");});
 ["n1","n2"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")$("btn-jugar").click();}));
 $("btn-jugar").addEventListener("click",()=>{
   if(modoOnline){redEntrar();return;}
@@ -1684,14 +1679,6 @@ function terminar(motivo){
   cortarTiempo();
   $("duelo").className="podio";$("duelo").style.display=solo?"none":"flex";
   if(!solo){$("duelo").innerHTML=podio();luego(lluviaLetras,400);}
-  $("aportes").innerHTML=conBot
-    ? "Resolviste <b>"+puntos[0]+"</b> conceptos y "+nombres[1]+" resolvió <b>"+puntos[1]+"</b>. Entre los dos cerraron <b>"+ok+"</b> de "+n+"."
-    : nombres[0]+" aportó <b>"+puntos[0]+"</b> respuestas · "+nombres[1]+" aportó <b>"+puntos[1]+"</b> respuestas · juntos resolvieron <b>"+ok+"</b> conceptos.";
-  if(enLinea)$("aportes").innerHTML="Resolviste <b>"+puntos[yo]+"</b> conceptos y "+nombres[1-yo]+" resolvió <b>"+puntos[1-yo]+"</b>. Entre los dos cerraron <b>"+ok+"</b> de "+n+".";
-  $("aportes").classList.remove("visible");
-  $("btn-aportes").style.display=(conBot||enLinea||solo)?"none":"";
-  $("btn-aportes").textContent="Ver conceptos resueltos por cada integrante";
-
   const firmes=[],revisar=[],sin=[];
   items.forEach((it,i)=>{
     if(estado[i]==="acierto")firmes.push(it);
@@ -1715,10 +1702,6 @@ function terminar(motivo){
   else v="Quedaron varios conceptos para volver a pensar. Empiecen por el repaso de abajo.";
   $("veredicto").textContent=v;
 
-  $("meta-preg").textContent=recuperacion?"Después del repaso: ¿cambió algo?":"Antes de repasar: ¿qué les costó más?";
-  [...$("chips-meta").children].forEach(c=>c.setAttribute("aria-pressed","false"));
-  $("meta").style.display=pendientesRepaso.length?"":"none";
-
   const g=$("grupos");g.innerHTML="";
   const bloque=(titulo,color,icono,lista,cls)=>{
     if(!lista.length)return;
@@ -1736,22 +1719,6 @@ function terminar(motivo){
   rankingEnviar().finally(rankingActualizar);   // anota la marca y refresca la tabla
   mostrar("p-final");window.scrollTo({top:0,behavior:"smooth"});
 }
-$("btn-aportes").addEventListener("click",()=>{
-  const v=$("aportes").classList.toggle("visible");
-  $("btn-aportes").textContent=v?"Ocultar los conceptos por integrante":"Ver conceptos resueltos por cada integrante";
-});
-$("btn-copiar").addEventListener("click",async()=>{
-  const n=items.length,ok=estado.filter(s=>s==="acierto").length;
-  const err=pendientesRepaso.map(it=>it.p).join(", ")||"ninguna";
-  const linea="Pasapalabra multijugador · "+new Date().toLocaleDateString("es-AR")+
-    " · Sección "+seccion+" · "+nombres[0]+" y "+nombres[1]+
-    " · "+(recuperacion?"repaso":"partida")+
-    " · "+ok+"/"+n+" conceptos · tiempo "+(sinReloj?"sin reloj":fmt(seg-Math.max(rel[enLinea?yo:0],0)))+
-    " · para revisar: "+err;
-  try{await navigator.clipboard.writeText(linea);$("btn-copiar").textContent="✓ Copiado";}
-  catch(e){window.prompt("Copiá esta línea:",linea);}
-  luego(()=>$("btn-copiar").textContent="Copiar resultado",2500);
-});
 /* mini rosco decorativo de la portada: las letras se dispersan y vuelven a cerrarse */
 (function(){const cont=$("rosco-mini");if(!cont)return;const n=LETRAS.length,R=44,marca={0:"ok",5:"mal",12:"pas"};
   LETRAS.forEach((l,i)=>{const ang=(-90+i*360/n)*Math.PI/180;const d=document.createElement("div");
