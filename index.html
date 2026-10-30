@@ -1105,7 +1105,7 @@ if(soportaVoz){elegirVoz();speechSynthesis.onvoiceschanged=elegirVoz;}
    corren al instante: quien lee rápido no espera. */
 let vozPendiente=null;
 const correrPendiente=()=>{const f=vozPendiente;vozPendiente=null;if(f)f();};
-const alTerminarVoz=cb=>{if(lectura&&soportaVoz)vozPendiente=cb;else cb();};
+const alTerminarVoz=cb=>{if(lectura&&soportaVoz){const prev=vozPendiente;vozPendiente=prev?()=>{prev();cb();}:cb;}else cb();};
 pintarVoz();
 const callar=()=>{if(soportaVoz)speechSynthesis.cancel();};
 function leer(texto){
@@ -1400,7 +1400,7 @@ function entrarAlJuego(){
   /* con lectura activa, nadie responde hasta que la voz termina la definición;
      sin lectura, se responde al instante */
   $("entrada").placeholder="Tu respuesta";
-  if(esBot()){habilitar(false);tIni=Date.now();arrancarReloj();jugadaBot();}
+  if(esBot()){habilitar(false);alTerminarVoz(()=>{if(jugando&&esBot()){tIni=Date.now();arrancarReloj();arrancarLetra();}});jugadaBot();}
   else if(!miTurno()){habilitar(false);relojUI();verRival();}
   else if(lectura&&soportaVoz){habilitar(false);alTerminarVoz(()=>{if(jugando&&!esBot()&&miTurno()){habilitar(true);tIni=Date.now();arrancarReloj();arrancarLetra();luego(()=>$("entrada").focus(),120);}});}
   else{habilitar(true);tIni=Date.now();arrancarReloj();arrancarLetra();luego(()=>$("entrada").focus(),120);}
