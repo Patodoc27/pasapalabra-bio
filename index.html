@@ -1763,26 +1763,43 @@ function textoEntrar(){const c=$("cod-sala").value.toUpperCase().replace(/[^A-Z0
   return c.length===4?"Entrar a la sala "+c:"Crear sala y esperar al rival";}
 $("cod-sala").addEventListener("input",()=>{const i=$("cod-sala");i.value=i.value.toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,4);$("btn-jugar").textContent=textoEntrar();});
 $("cod-sala").addEventListener("keydown",e=>{if(e.key==="Enter")$("btn-jugar").click();});
-let lobbyPrimera=true,salaAnuncia=null;
-function lobbyAbrir(){if(red.lobby)return;lobbyPrimera=true;
+let lobbyKeys={},salaAnuncia=null,salasDir={};
+function lobbyAbrir(){if(red.lobby)return;
   red.lobby=rtCanal("egd-lobby",{pres:m=>{
-    const antes=lobbyPrimera?m:(red.salas||{});lobbyPrimera=false;red.salas=m;pintarSalas();
-    if(Object.keys(m).some(k=>m[k]&&m[k].c&&m[k].id!==ID&&!antes[k]))avisoSalaNueva();}});}
+    const nuevas=Object.keys(m).filter(k=>m[k]&&m[k].c&&m[k].id!==ID&&!lobbyKeys[k]);
+    red.salas=m;pintarSalas();
+    Object.keys(m).forEach(k=>lobbyKeys[k]=1);
+    if(nuevas.length)avisoSalaNueva();},
+    unido:()=>{red.lobby.enviar("quien",{});},
+    msg:(ev,p)=>{
+      if(ev==="sala-libre"&&p&&p.c&&p.id!==ID){salasDir[p.c]={id:p.id,c:p.c,n:p.n,a:p.a,s:p.s,sg:p.sg,t:Date.now()};
+        if(!lobbyKeys["dir-"+p.c]){lobbyKeys["dir-"+p.c]=1;avisoSalaNueva();}
+        pintarSalas();}
+      else if(ev==="sala-llena"&&p&&p.c){delete salasDir[p.c];pintarSalas();}
+      else if(ev==="quien"&&red.rol==="host"&&!red.rival&&red.sala)
+        red.lobby.enviar("sala-libre",{id:ID,c:red.sala,n:nombres[0],a:avatares[0],s:seccion,sg:seg});}});
+  mantener();}
 function avisoSalaNueva(){
   const ini=document.getElementById("p-inicio");if(!ini||!ini.classList.contains("activa"))return;
   tono(784,.14,"triangle",.16);tono(1175,.16,"triangle",.16,.12);tono(1568,.3,"triangle",.16,.26);
   const s=$("salas-abiertas");if(s){s.classList.remove("nueva");void s.offsetWidth;s.classList.add("nueva");setTimeout(()=>s.classList.remove("nueva"),1800);}
 }
-function anunciar(v){
-  clearInterval(salaAnuncia);salaAnuncia=null;
-  if(v)salaAnuncia=setInterval(()=>{
-    if(red.rol==="host"&&!red.rival&&red.lobby&&red.lobby.meta)red.lobby.track(red.lobby.meta);
-    else{clearInterval(salaAnuncia);salaAnuncia=null;}},12000);
+function mantener(){
+  clearInterval(salaAnuncia);
+  salaAnuncia=setInterval(()=>{
+    if(red.rol==="host"&&!red.rival&&red.lobby&&red.lobby.meta){
+      red.lobby.track(Object.assign({},red.lobby.meta,{t:Date.now()}));   // re-anuncia: la sala reaparece sola
+      red.lobby.enviar("sala-libre",red.lobby.meta);}
+    else if(!red.lobby){clearInterval(salaAnuncia);salaAnuncia=null;}},12000);
 }
-function lobbyCerrar(){if(red.lobby&&!red.sala){red.lobby.salir();red.lobby=null;}}
+function lobbyCerrar(){if(red.lobby&&!red.sala){red.lobby.salir();red.lobby=null;lobbyKeys={};anunciarOff();}}
+function anunciarOff(){clearInterval(salaAnuncia);salaAnuncia=null;}
 function pintarSalas(){
   const cont=$("salas-abiertas");if(!cont)return;
-  const lista=Object.keys(red.salas).map(k=>red.salas[k]).filter(x=>x&&x.c&&x.id!==ID).sort((a,b)=>(b.t||0)-(a.t||0)).slice(0,12);
+  const mapa={};
+  Object.keys(red.salas).forEach(k=>{const x=red.salas[k];if(x&&x.c&&x.id!==ID&&x.t&&Date.now()-x.t<45000)mapa[x.c]=x;});
+  Object.keys(salasDir).forEach(c=>{const x=salasDir[c];if(x&&Date.now()-x.t<45000)mapa[c]=x;});
+  const lista=Object.keys(mapa).map(k=>mapa[k]).sort((a,b)=>(b.t||0)-(a.t||0)).slice(0,12);
   cont.innerHTML=lista.length?'<small class="salas-tit">Salas esperando rival</small>'+lista.map(x=>
     '<button class="sala-item" type="button" data-c="'+escH(x.c)+'"><img src="'+AVATARES[avOk(x.a)].img+'" alt=""><span>'+escH(nombreBonito(limpiaNom(x.n)))+
     '<small>'+escH(limpiaSec(x.s))+' · '+nombreModo(x.sg)+'</small></span><b>'+escH(x.c)+'</b></button>').join("")
@@ -1813,7 +1830,8 @@ function redCrear(nom,av){
   const code=codigoNuevo();redAbrirCanal(code);
   red.canal.track({id:ID,rol:"host",n:nom,a:av,s:seccion});
   lobbyAbrir();red.lobby.track({id:ID,c:code,n:nom,a:av,s:seccion,sg:seg,t:Date.now()});
-  anunciar(true);guardarSesion();pintarSala();mostrar("p-sala");
+  red.lobby.enviar("sala-libre",{id:ID,c:code,n:nom,a:av,s:seccion,sg:seg});
+  guardarSesion();pintarSala();mostrar("p-sala");
 }
 function redUnirse(code,nom,av){
   redReset();red.rol="guest";yo=1;enLinea=false;
@@ -1827,13 +1845,14 @@ function redUnirse(code,nom,av){
 }
 function redReset(){
   if(red.canal){red.canal.salir();}
-  if(red.lobby)red.lobby.untrack();anunciar(false);
+  if(red.lobby)red.lobby.untrack();anunciarOff();
   clearTimeout(red.buscarT);clearTimeout(red.ausenteT);
   chat.lista=[];
   Object.assign(red,{sala:"",rol:"",canal:null,rival:null,rivalAqui:false,ronda:0,rondaT:0,seq:0,pend:null,quiero:false,rivalQuiere:false,jug:null,secRival:""});
   banda("");
 }
 function redSalir(){
+  if(red.lobby&&red.sala&&red.rol==="host"&&!red.rival)red.lobby.enviar("sala-llena",{c:red.sala});
   if(red.canal)redEnviar("chau",{});
   const c=red.canal;redReset();
   enLinea=false;solo=false;partidaViva=false;borrarSesion();
@@ -1864,7 +1883,7 @@ function redAceptar(g){
   red.rival=g.id;red.secRival=limpiaSec(g.s);
   nombres[1]=limpiaNom(g.n)||"Rival";avatares[1]=avOk(g.a);
   if(avatares[1]===avatares[0])avatares[1]=(avatares[0]+1)%(AVATARES.length-1);
-  if(red.lobby)red.lobby.untrack();anunciar(false);
+  if(red.lobby){red.lobby.untrack();red.lobby.enviar("sala-llena",{c:red.sala});}
   red.canal.enviar("bien",{para:g.id,hn:nombres[0],ha:avatares[0],hs:seccion,ga:avatares[1],gn:nombres[1],sg:seg});
   guardarSesion();pintarSala();
 }
@@ -1887,7 +1906,7 @@ function redRivalPresente(aqui){
 function redLiberar(){   // el host vuelve a esperar rival
   red.rival=null;red.rivalAqui=false;nombres[1]="";
   if(red.lobby)red.lobby.track({id:ID,c:red.sala,n:nombres[0],a:avatares[0],s:seccion,sg:seg,t:Date.now()});
-  anunciar(true);guardarSesion();pintarSala();
+  guardarSesion();pintarSala();
 }
 $("banda-btn").addEventListener("click",()=>{banda("");
   if(enLinea&&partidaViva)terminar("Se cortó la conexión de "+(nombres[1-yo]||"tu rival")+".");});
@@ -2134,7 +2153,7 @@ $("chat-rapidas").addEventListener("click",e=>{const b=e.target.closest(".chip")
   const nom=limpiaNom(g.nombre)||limpiaNom($("n1").value);if(!nom)return;
   if(g.rol==="host"){redReset();red.rol="host";yo=0;nombres=[nom,""];redAbrirCanal(g.sala);red.rival=g.rival||null;
     red.canal.track({id:ID,rol:"host",n:nom,a:avatares[0],s:seccion});
-    if(!red.rival){lobbyAbrir();red.lobby.track({id:ID,c:g.sala,n:nom,a:avatares[0],s:seccion,sg:seg,t:Date.now()});anunciar(true);}}
+    if(!red.rival){lobbyAbrir();red.lobby.track({id:ID,c:g.sala,n:nom,a:avatares[0],s:seccion,sg:seg,t:Date.now()});}}
   else{redReset();red.rol="guest";yo=1;nombres=["",nom];redAbrirCanal(g.sala);red.rival=g.rival||null;
     red.canal.track({id:ID,rol:"guest",n:nom,a:avatares[0],s:seccion});avatares=[0,avatares[0]];}
   red.reanudar=true;pintarSala("Volviendo a la sala "+g.sala+"…");mostrar("p-sala");
