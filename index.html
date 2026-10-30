@@ -513,6 +513,22 @@ input{font:inherit;color:inherit}
 #p-registro #btn-jugar:hover{transform:translateY(-3px)}
 #p-registro #btn-jugar:active{transform:translateY(4px);box-shadow:0 4px 0 var(--tinta),inset 0 5px 0 rgba(255,255,255,.4)}
 #p-registro #btn-jugar svg{width:38px;height:38px;flex:none}
+
+/* perfil: stats estiradas + círculo de calificación */
+.perfil-id{text-align:center}
+.perfil-datos{display:flex;flex-direction:column;gap:22px}
+.perfil-stats{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.perfil-stat{padding:22px 30px}
+.perfil-stat b{font-size:44px}
+.ring-wrap{position:relative;width:300px;margin:0 auto}
+.ring-svg{width:300px;height:300px;display:block}
+.ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-c b{font-family:"Lilita One";font-size:96px;line-height:1;color:var(--uva2)}
+.ring-c small{font-weight:900;font-size:22px;color:#4A6280}
+.camino-sub{font-size:20px;margin-top:4px}
+.perfil-stats{width:100%}
+.perfil-stat{padding:26px 36px;justify-content:space-between;gap:30px}
+.perfil-stat span{font-size:23px}
 </style>
 </head>
 <body>
@@ -2160,21 +2176,28 @@ function pintarPerfil(){
  const c=$("perfil-cuerpo");let g=null;try{g=JSON.parse(localStorage.getItem("egd-jugador")||"null");}catch(e){}
  if(!g||!g.nombre){c.innerHTML='<p class="rank-vacio" style="font-size:26px">Todavía no jugaste en esta compu.<br>Entrá a «Jugar», escribí tu nombre y tu perfil aparece acá.</p>';return;}
  const av=AVATARES[Math.min(Math.max(+(g.avatar||0),0),AVATARES.length-2)].img;
- c.innerHTML='<div class="perfil-grid"><div style="text-align:center"><img class="perfil-ava" src="'+av+'" alt="">'+
+ c.innerHTML='<div class="perfil-grid"><div class="perfil-id"><img class="perfil-ava" src="'+av+'" alt="">'+
   '<p class="perfil-nom">'+escH(nombreBonito(g.nombre))+'</p><p class="perfil-sec">'+escH(g.seccion||"")+'</p></div>'+
-  '<div><div class="perfil-stat"><span>Aciertos acumulados</span><b id="pf-aci">…</b></div>'+
-  '<div class="perfil-stat"><span>Partidas jugadas</span><b id="pf-par">…</b></div>'+
-  '<div class="perfil-stat"><span>Camino al 10 (100 aciertos)</span><b id="pf-fal">…</b></div>'+
-  '<div class="camino-grande"><i id="pf-bar" style="width:0%"></i></div><p class="camino-txt" id="pf-txt"></p></div></div>';
- if(!rankingOn()){["pf-aci","pf-par","pf-fal"].forEach(i=>$(i).textContent="—");$("pf-txt").textContent="La planilla aún no está conectada.";return;}
+  '<div class="perfil-datos"><div class="perfil-stats">'+
+  '<div class="perfil-stat"><span>Aciertos acumulados</span><b id="pf-aci">…</b></div>'+
+  '<div class="perfil-stat"><span>Partidas jugadas</span><b id="pf-par">…</b></div></div>'+
+  '<div class="ring-wrap"><svg viewBox="0 0 200 200" class="ring-svg">'+
+  '<defs><linearGradient id="pfGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#19C2B8"/><stop offset="1" stop-color="#7CCB1D"/></linearGradient></defs>'+
+  '<circle cx="100" cy="100" r="84" fill="none" stroke="#DCE8F6" stroke-width="20"/>'+
+  '<circle id="pf-ring" cx="100" cy="100" r="84" fill="none" stroke="url(#pfGrad)" stroke-width="20" stroke-linecap="round" stroke-dasharray="527.8" stroke-dashoffset="527.8" transform="rotate(-90 100 100)"/></svg>'+
+  '<div class="ring-c"><b id="pf-nota">…</b><small>de 10</small></div></div>'+
+  '<p class="camino-txt" id="pf-txt"></p><p class="camino-txt camino-sub" id="pf-fal"></p></div></div>';
+ if(!rankingOn()){["pf-aci","pf-par","pf-nota"].forEach(i=>$(i).textContent="—");$("pf-txt").textContent="La planilla aún no está conectada.";return;}
  rankingTraer(200).then(l=>{
   const yo_=l.filter(r=>normaRank(r.nombre)===normaRank(g.nombre)&&normaRank(r.seccion)===normaRank(g.seccion));
   const a=yo_.reduce((s,r)=>s+(r.aciertos||0),0),p=yo_.reduce((s,r)=>s+(r.partidas||1),0);
-  $("pf-aci").textContent=a;$("pf-par").textContent=p;
-  $("pf-fal").textContent=a>=100?"¡Llegaste!":(100-a)+" para el 10";
-  $("pf-bar").style.width=Math.min(100,a)+"%";
-  $("pf-txt").textContent=a>=100?"¡Meta cumplida: 100 aciertos = un 10!":"Sumá "+(100-a)+" aciertos más para el 10.";
- }).catch(()=>{["pf-aci","pf-par","pf-fal"].forEach(i=>$(i).textContent="—");$("pf-txt").textContent="No se pudo leer la planilla.";});
+  const nota=Math.min(10,Math.floor(a/10));
+  $("pf-aci").textContent=a;$("pf-par").textContent=p;$("pf-nota").textContent=nota;
+  $("pf-ring").style.strokeDashoffset=(527.8*(1-Math.min(100,a)/100)).toFixed(1);
+  $("pf-ring").style.transition="stroke-dashoffset 1.2s ease";
+  $("pf-txt").textContent=nota>=10?"Calificación: 10 — ¡meta cumplida!":"Calificación actual: "+nota+" · cada 10 aciertos suman 1 punto.";
+  $("pf-fal").textContent=a>=100?"":"Sumá "+(100-a)+" aciertos más para el 10.";
+ }).catch(()=>{["pf-aci","pf-par","pf-nota"].forEach(i=>$(i).textContent="—");$("pf-txt").textContent="No se pudo leer la planilla.";});
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-ir]");if(!b)return;
  if(b.dataset.ir==="p-perfil")pintarPerfil();
