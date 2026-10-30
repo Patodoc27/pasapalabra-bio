@@ -529,6 +529,25 @@ input{font:inherit;color:inherit}
 .perfil-stats{width:100%}
 .perfil-stat{padding:26px 36px;justify-content:space-between;gap:30px}
 .perfil-stat span{font-size:23px}
+
+/* ranking: medallas en General + fila general ancha */
+.med-rank{width:46px;height:60px;display:block}
+.f-rank .pos{min-width:52px;text-align:center;flex:none}
+
+/* perfil enriquecido */
+.perfil-hist{margin-top:26px;width:100%}
+.hist-tit{font-family:"Lilita One";font-size:28px;color:var(--tinta2);margin-bottom:12px}
+.hist-filas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hist-pos{font-family:"Lilita One";font-size:18px;color:#fff;background:var(--uva2);border-radius:14px;padding:8px 14px;min-width:0}
+.perfil-stats{grid-template-columns:repeat(3,1fr)}
+@media(max-width:1400px){.perfil-stats{grid-template-columns:1fr 1fr}}
+
+/* perfil: que entre todo */
+#p-perfil .tarjeta{height:auto;max-height:870px;overflow:auto}
+.perfil-hist{grid-column:1/-1}
+.perfil-stat b{font-size:38px;white-space:nowrap}
+.ring-wrap{width:240px}.ring-svg{width:240px;height:240px}
+.ring-c b{font-size:76px}
 </style>
 </head>
 <body>
@@ -566,6 +585,8 @@ input{font:inherit;color:inherit}
 <!-- ===== REGISTRO ===== -->
 <section class="pantalla" id="p-registro" data-fondo="registro">
  <div class="escena">
+  <div class="herr-sup"><button class="ico-btn" data-son aria-label="Sonido"></button></div>
+
   <div class="lateral" data-lateral="p-registro"></div>
   <div class="tarjeta">
     <div class="titulo-banda"><span class="medallon" data-ico="jugar"></span><h2>A JUGAR</h2></div>
@@ -626,6 +647,8 @@ input{font:inherit;color:inherit}
 <!-- ===== SALA EN LÍNEA ===== -->
 <section class="pantalla" id="p-sala" data-fondo="sala">
  <div class="escena">
+  <div class="herr-sup"><button class="ico-btn" data-son aria-label="Sonido"></button></div>
+
   <div class="tarjeta sala-t">
     <div class="titulo-banda" style="justify-content:center"><span class="medallon" data-ico="red"></span><h2>SALA EN LÍNEA</h2></div>
     <div class="sala-cod" id="sala-cod">····</div>
@@ -692,6 +715,8 @@ input{font:inherit;color:inherit}
 <!-- ===== FINAL / RESULTADO ===== -->
 <section class="pantalla" id="p-final" data-fondo="final">
  <div class="escena">
+  <div class="herr-sup"><button class="ico-btn" data-son aria-label="Sonido"></button></div>
+
   <div class="tarjeta cartel">
     <p class="eyebrow" id="motivo">Rosco cerrado</p>
     <div class="puntaje"><span id="f-ok">0</span>/<span id="f-tot">24</span><small id="f-rot">Conceptos recuperados</small></div>
@@ -721,6 +746,8 @@ input{font:inherit;color:inherit}
 <!-- ===== RANKING ===== -->
 <section class="pantalla" id="p-ranking" data-fondo="ranking">
  <div class="escena">
+  <div class="herr-sup"><button class="ico-btn" data-son aria-label="Sonido"></button></div>
+
   <div class="lateral" data-lateral="p-ranking"></div>
   <div class="titulo-banda claro"><span class="medallon" data-ico="trofeo"></span><h2>RANKING</h2></div>
   <div class="tarjeta">
@@ -740,6 +767,8 @@ input{font:inherit;color:inherit}
 <!-- ===== MI PERFIL ===== -->
 <section class="pantalla" id="p-perfil" data-fondo="perfil">
  <div class="escena">
+  <div class="herr-sup"><button class="ico-btn" data-son aria-label="Sonido"></button></div>
+
   <div class="lateral" data-lateral="p-perfil"></div>
   <div class="titulo-banda"><span class="medallon" data-ico="perfil"></span><h2>MI PERFIL</h2></div>
   <div class="tarjeta" id="perfil-cuerpo"></div>
@@ -750,6 +779,8 @@ input{font:inherit;color:inherit}
 <!-- ===== ACERCA DE ===== -->
 <section class="pantalla" id="p-acerca" data-fondo="acerca">
  <div class="escena">
+  <div class="herr-sup"><button class="ico-btn" data-son aria-label="Sonido"></button></div>
+
   <div class="lateral" data-lateral="p-acerca"></div>
   <div class="titulo-banda"><span class="medallon" data-ico="info"></span><h2>ACERCA DE</h2></div>
   <div class="tarjeta">
@@ -2180,24 +2211,41 @@ function pintarPerfil(){
   '<p class="perfil-nom">'+escH(nombreBonito(g.nombre))+'</p><p class="perfil-sec">'+escH(g.seccion||"")+'</p></div>'+
   '<div class="perfil-datos"><div class="perfil-stats">'+
   '<div class="perfil-stat"><span>Aciertos acumulados</span><b id="pf-aci">…</b></div>'+
-  '<div class="perfil-stat"><span>Partidas jugadas</span><b id="pf-par">…</b></div></div>'+
+  '<div class="perfil-stat"><span>Partidas jugadas</span><b id="pf-par">…</b></div>'+
+  '<div class="perfil-stat"><span>Mejor rosco</span><b id="pf-mej">…</b></div>'+
+  '<div class="perfil-stat"><span>Promedio por partida</span><b id="pf-pro">…</b></div>'+
+  '<div class="perfil-stat"><span>Precisión media</span><b id="pf-pre">…</b></div>'+
+  '<div class="perfil-stat"><span>Errores · pasadas</span><b id="pf-err">…</b></div></div>'+
   '<div class="ring-wrap"><svg viewBox="0 0 200 200" class="ring-svg">'+
   '<defs><linearGradient id="pfGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#19C2B8"/><stop offset="1" stop-color="#7CCB1D"/></linearGradient></defs>'+
   '<circle cx="100" cy="100" r="84" fill="none" stroke="#DCE8F6" stroke-width="20"/>'+
   '<circle id="pf-ring" cx="100" cy="100" r="84" fill="none" stroke="url(#pfGrad)" stroke-width="20" stroke-linecap="round" stroke-dasharray="527.8" stroke-dashoffset="527.8" transform="rotate(-90 100 100)"/></svg>'+
   '<div class="ring-c"><b id="pf-nota">…</b><small>de 10</small></div></div>'+
-  '<p class="camino-txt" id="pf-txt"></p><p class="camino-txt camino-sub" id="pf-fal"></p></div></div>';
- if(!rankingOn()){["pf-aci","pf-par","pf-nota"].forEach(i=>$(i).textContent="—");$("pf-txt").textContent="La planilla aún no está conectada.";return;}
- rankingTraer(200).then(l=>{
-  const yo_=l.filter(r=>normaRank(r.nombre)===normaRank(g.nombre)&&normaRank(r.seccion)===normaRank(g.seccion));
-  const a=yo_.reduce((s,r)=>s+(r.aciertos||0),0),p=yo_.reduce((s,r)=>s+(r.partidas||1),0);
+  '<p class="camino-txt" id="pf-txt"></p><p class="camino-txt camino-sub" id="pf-fal"></p></div>'+
+  '<div class="perfil-hist"><h3 class="hist-tit">Últimas partidas</h3><div id="pf-hist" class="hist-filas"></div></div></div>';
+ if(!rankingOn()){["pf-aci","pf-par","pf-mej","pf-pro","pf-pre","pf-err","pf-nota"].forEach(i=>$(i).textContent="—");$("pf-txt").textContent="La planilla aún no está conectada.";return;}
+ fetch(RANKING_URL+"?top=400").then(r=>r.json()).then(lista=>{
+  const mias=lista.filter(r=>normaRank(r.nombre)===normaRank(g.nombre)&&normaRank(r.seccion)===normaRank(g.seccion));
+  const a=mias.reduce((s,r)=>s+(r.aciertos||0),0),p=mias.reduce((s,r)=>s+(r.partidas||1),0);
+  const err=mias.reduce((s,r)=>s+(r.errores||0),0),pas=mias.reduce((s,r)=>s+(r.pasadas||0),0);
+  const mejor=mias.length?Math.max.apply(null,mias.map(r=>Math.round((r.aciertos||0)/(r.partidas||1)))):0;
+  const prec=mias.filter(r=>r.porcentaje!=null);
+  const pc=prec.length?Math.round(prec.reduce((s,r)=>s+(r.porcentaje||0),0)/prec.length):null;
   const nota=Math.min(10,Math.floor(a/10));
   $("pf-aci").textContent=a;$("pf-par").textContent=p;$("pf-nota").textContent=nota;
+  $("pf-mej").textContent=mejor;$("pf-pro").textContent=p?(a/p).toFixed(1):"0";
+  $("pf-pre").textContent=pc==null?"—":pc+"%";$("pf-err").textContent=err+" · "+pas;
+  const hist=mias.slice().sort((x,y)=>(+new Date(y.inicio||0))-(+new Date(x.inicio||0))).slice(0,6);
+  $("pf-hist").innerHTML=hist.length?hist.map(r=>{
+   const t=new Date(r.inicio||0),f=isNaN(t)?"":" "+t.toLocaleDateString("es-AR",{day:"numeric",month:"short"});
+   return '<div class="f-rank"><span class="pos hist-pos">'+escH(r.modo||"·")+'</span>'+
+    '<span class="nom"><b>'+(r.aciertos||0)+' aciertos</b><small>'+(r.errores||0)+' errores · '+(r.pasadas||0)+' pasadas'+(r.porcentaje!=null?" · "+r.porcentaje+"%":"")+escH(f)+'</small></span></div>';}).join(""):
+   '<p class="rank-vacio" style="font-size:20px">Sin partidas registradas todavía.</p>';
   $("pf-ring").style.strokeDashoffset=(527.8*(1-Math.min(100,a)/100)).toFixed(1);
   $("pf-ring").style.transition="stroke-dashoffset 1.2s ease";
   $("pf-txt").textContent=nota>=10?"Calificación: 10 — ¡meta cumplida!":"Calificación actual: "+nota+" · cada 10 aciertos suman 1 punto.";
   $("pf-fal").textContent=a>=100?"":"Sumá "+(100-a)+" aciertos más para el 10.";
- }).catch(()=>{["pf-aci","pf-par","pf-nota"].forEach(i=>$(i).textContent="—");$("pf-txt").textContent="No se pudo leer la planilla.";});
+ }).catch(()=>{["pf-aci","pf-par","pf-mej","pf-pro","pf-pre","pf-err","pf-nota"].forEach(i=>$(i).textContent="—");$("pf-txt").textContent="No se pudo leer la planilla.";});
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-ir]");if(!b)return;
  if(b.dataset.ir==="p-perfil")pintarPerfil();
@@ -2216,15 +2264,25 @@ function pintarRank(){
  const cont=$("ranking-secs");
  const l=rankTab?rankLista.filter(r=>normaRank(r.seccion)===normaRank(rankTab)):rankLista;
  if(!l.length){cont.innerHTML='<p class="rank-vacio">Todavía no hay marcas registradas'+(rankTab?" en "+rankTab:"")+': ¡a jugar!</p>';return;}
+ const esMio=r=>normaRank(r.seccion)===normaRank(seccion)&&((enLinea||solo)?normaRank(r.nombre)===normaRank(nombres[yo]):(normaRank(r.nombre)===normaRank(nombres[0])||normaRank(r.nombre)===normaRank(nombres[1])));
+ const fila=(r,i)=>'<div class="f-rank'+(esMio(r)?" mio":"")+'"><span class="pos">'+(rankTab?(i+1)+"°":medalRank(i))+'</span>'+avaR(r.avatar)+
+  '<span class="nom">'+escH(nombreBonito(r.nombre))+'<small>'+(r.partidas>1?r.partidas+" partidas":"1 partida")+(rankTab?"":" · "+escH(r.seccion||""))+'</small>'+
+  '<span class="camino"><i style="width:'+Math.min(100,r.aciertos)+'%"></i></span></span>'+
+  '<span class="pts">'+r.aciertos+' aciertos</span></div>';
+ if(!rankTab){
+  const todos=l.slice().sort((a,b)=>b.aciertos-a.aciertos);
+  cont.innerHTML='<div class="sec-col"><h3>General</h3><small>'+todos.length+' estudiantes</small>'+todos.map(fila).join("")+'</div>';return;
+ }
  const porSec={};l.forEach(r=>{const s=r.seccion||"—";(porSec[s]=porSec[s]||[]).push(r);});
- const medal=i=>i===0?"🥇":i===1?"🥈":i===2?"🥉":"";
  cont.innerHTML=Object.keys(porSec).sort().map(s=>'<div class="sec-col"><h3>'+escH(s)+'</h3><small>'+porSec[s].length+' estudiantes</small>'+
-  porSec[s].map((r,i)=>{
-   const mio=normaRank(r.seccion)===normaRank(seccion)&&((enLinea||solo)?normaRank(r.nombre)===normaRank(nombres[yo]):(normaRank(r.nombre)===normaRank(nombres[0])||normaRank(r.nombre)===normaRank(nombres[1])));
-   return '<div class="f-rank'+(mio?" mio":"")+'"><span class="pos">'+(medal(i)||(i+1)+"°")+'</span>'+avaR(r.avatar)+
-    '<span class="nom">'+escH(nombreBonito(r.nombre))+'<small>'+(r.partidas>1?r.partidas+" partidas":"1 partida")+'</small>'+
-    '<span class="camino"><i style="width:'+Math.min(100,r.aciertos)+'%"></i></span></span>'+
-    '<span class="pts">'+r.aciertos+' aciertos</span></div>';}).join("")+'</div>').join("");
+  porSec[s].slice().sort((a,b)=>b.aciertos-a.aciertos).map(fila).join("")+'</div>').join("");
+}
+function medalRank(i){
+ if(i>5)return (i+1)+"°";
+ const c=[["#FFE066","#E3A008","#8A6508"],["#F0F4FA","#B6BFCE","#6E7888"],["#F5B87E","#C67B2D","#7A4A15"]][Math.min(i,2)];
+ return '<svg class="med-rank" viewBox="0 0 40 52" aria-hidden="true"><path d="M12 0h7l4 14-7 4z" fill="var(--parina)"/><path d="M28 0h-7l-4 14 7 4z" fill="var(--marca)"/>'+
+  '<circle cx="20" cy="32" r="15" fill="'+c[0]+'" stroke="'+c[1]+'" stroke-width="4"/>'+
+  '<text x="20" y="38" text-anchor="middle" font-family="Lilita One" font-size="15" fill="'+c[2]+'">'+(i+1)+'</text></svg>';
 }
 $("tabs-rank").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;
  [...$("tabs-rank").children].forEach(c=>c.setAttribute("aria-selected",String(c===b)));rankTab=b.dataset.t;pintarRank();});
@@ -2249,7 +2307,7 @@ function musicaGo(on){
 }
 function musicaPantalla(){
   const a=document.querySelector(".pantalla.activa");const id=a?a.id:"";
-  musicaGo(id!=="p-juego"&&id!=="p-duelo");
+  musicaGo(sonido&&id!=="p-juego"&&id!=="p-duelo");
 }
 const __mus=new MutationObserver(musicaPantalla);
 document.querySelectorAll(".pantalla").forEach(function(s){__mus.observe(s,{attributes:true,attributeFilter:["class"]});});
@@ -2264,6 +2322,9 @@ document.querySelectorAll("[data-full]").forEach(function(b){
     else if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(function(){});
   });
 });
+
+/* ícono de sonido pintado al cargar + la música respeta el silencio */
+pintarSonido();document.querySelectorAll('[data-son]').forEach(function(b){b.addEventListener('click',musicaPantalla);});
 
 </script>
 </body>
