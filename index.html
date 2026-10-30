@@ -414,12 +414,28 @@ input{font:inherit;color:inherit}
 .letra.activa{outline:5px solid var(--jug);outline-offset:3px;transform:scale(1.15);z-index:3}
 .letra .badge{font-style:normal}
 /* final */
-#p-final .cartel{position:absolute;left:50%;top:24px;transform:translateX(-50%);width:1160px;max-height:560px;overflow:auto;padding:22px 44px;text-align:center}
-#p-final .eyebrow{font-family:"Lilita One";font-size:24px;color:var(--uva2)}
-#p-final .puntaje{font-family:"Lilita One";font-size:64px;color:var(--tinta);line-height:1}
-#p-final .puntaje small{display:block;font-size:20px;color:#4A6280;font-family:"Nunito";font-weight:900}
-#p-final .veredicto{font-family:"Lilita One";font-size:32px;color:var(--tinta2);margin:10px 0}
+#p-final .cartel{position:absolute;left:50%;top:14px;transform:translateX(-50%);width:min(980px,64vw);max-height:none;overflow:visible;padding:10px 40px 14px;text-align:center}
+#p-final .eyebrow{font-family:"Lilita One";font-size:22px;color:var(--uva2);margin:0}
+#p-final .puntaje{font-family:"Lilita One";font-size:56px;color:var(--tinta);line-height:1}
+#p-final .puntaje small{display:block;font-size:18px;color:#4A6280;font-family:"Nunito";font-weight:900}
+#p-final .veredicto{font-family:"Lilita One";font-size:30px;color:var(--tinta2);margin:8px 0 2px}
 #p-final .veredicto em{color:var(--rosa2);font-style:normal}
+/* podio real, centrado sobre el pedestal de piedra del fondo */
+#p-final .podio{position:absolute;inset:0;z-index:6;pointer-events:none}
+#p-final .podio-col{position:absolute;display:grid;place-items:center;gap:3px;width:330px}
+#p-final .podio-col.p1{left:50%;transform:translateX(-50%);bottom:175px}
+#p-final .podio-col.p2{left:calc(50% + 345px);transform:translateX(-50%);bottom:150px}
+#p-final .podio-col .ava-pod{width:138px;height:138px;border-radius:50%;border:5px solid var(--tinta);background:#fff;box-shadow:0 8px 22px rgba(14,42,71,.35)}
+#p-final .podio-col b{font-family:"Lilita One";font-size:30px;color:#fff;text-shadow:0 3px 0 var(--tinta),0 0 3px var(--tinta)}
+#p-final .podio-col .medalla{width:70px;filter:drop-shadow(0 4px 6px rgba(14,42,71,.4))}
+#p-final .podio-pts{font-family:"Lilita One";font-size:34px;color:#fff;text-shadow:0 3px 0 var(--uva2),0 0 3px var(--uva2)}
+#p-final .podio-pts small{display:block;font-size:15px;font-family:"Nunito";font-weight:900;color:#fff;text-shadow:0 2px 0 var(--tinta)}
+#p-final .podio-det{font-weight:800;font-size:16px;color:#fff;text-shadow:0 2px 0 rgba(14,42,71,.9)}
+#p-final .peldano{display:none}
+#p-final .podio-pos{font-family:"Lilita One";font-size:24px;color:#FFD93D;text-shadow:0 3px 0 var(--tinta),0 0 12px rgba(255,217,61,.7)}
+#p-final .podio-col.p1 .ava-pod{box-shadow:0 0 0 9px rgba(255,215,0,.6),0 0 52px rgba(255,215,0,.85)}
+#p-final .podio-col.p1 .medalla{width:84px}
+#p-final .podio-col.p1::before{content:"¡GANADOR!";font-family:"Lilita One";font-size:24px;color:#FFD93D;text-shadow:0 3px 0 var(--tinta),0 0 14px rgba(255,217,61,.8);letter-spacing:1px}
 .duelo.podio{display:flex;gap:30px;justify-content:center;align-items:flex-end;margin:14px 0}
 .podio-col{display:grid;place-items:center;gap:4px;width:330px}
 .podio-col .ava-pod{width:120px;height:120px;border-radius:50%;border:5px solid var(--tinta);background:#fff}
@@ -490,7 +506,7 @@ input{font:inherit;color:inherit}
 #avs-1.off{opacity:.45;pointer-events:none}
 /* rosco: badges y letras del motor */
 .zona-rosco{container-type:inline-size}
-.letra .badge{position:absolute;right:-6px;top:-6px;width:32px;height:32px;border-radius:50%;background:#fff;border:3px solid var(--tinta);display:grid;place-items:center;font-style:normal;font-family:"Lilita One";font-size:20px;color:var(--uva2)}
+.letra .badge{position:absolute;left:50%;top:50%;width:32px;height:32px;border-radius:50%;background:#fff;border:3px solid var(--tinta);display:grid;place-items:center;font-style:normal;font-family:"Lilita One";font-size:20px;color:var(--uva2)}
 #rosco{position:absolute;inset:0}
 #tablero{display:contents}
 .ava-p{width:52px;height:52px;border-radius:50%;border:3px solid var(--jug,var(--tinta));background:#E7F7FF;vertical-align:middle;margin-right:10px}
@@ -760,7 +776,6 @@ input{font:inherit;color:inherit}
     <p class="eyebrow" id="motivo">Rosco cerrado</p>
     <div class="puntaje"><span id="f-ok">0</span>/<span id="f-tot">24</span><small id="f-rot">Conceptos recuperados</small></div>
     <p class="veredicto" id="veredicto"></p>
-    <div class="duelo podio" id="duelo" style="display:none"></div>
     <div id="aportes"></div>
     <p style="margin-top:8px"><button class="btn hueca chico" id="btn-aportes">Ver conceptos resueltos por cada integrante</button></p>
     <div class="chat-slot" id="slot-final"></div>
@@ -768,6 +783,7 @@ input{font:inherit;color:inherit}
       <div class="chips" id="chips-meta"><button class="chip opc">Recordar los nombres</button><button class="chip opc">Entender las pistas</button><button class="chip opc">Confundir conceptos parecidos</button></div>
     </div>
   </div>
+  <div class="duelo podio" id="duelo" style="display:none"></div>
   <div class="res-bot">
     <button class="btn uva chico" id="btn-resultados"><span data-ico="ranking"></span>Resultados y ranking</button>
     <button class="btn lima" id="btn-otra"><span data-ico="pasa"></span>Pedir revancha</button>
@@ -1360,7 +1376,8 @@ function armarRosco(){
     d.innerHTML=it.letra+'<i class="badge" id="B'+i+'"></i>';
     d.style.left=(50+R*Math.cos(ang))+"%";d.style.top=(50+R*Math.sin(ang))+"%";
     const b=d.firstElementChild;   // el símbolo sale por el lado externo del anillo, nunca tapado
-    b.style.transform="translate(-50%,-50%) translate("+(Math.cos(ang)*4.0)+"cqw,"+(Math.sin(ang)*4.0)+"cqw)";
+    const desp=n<12?76:62;   // radio de la letra + margen: fijo por geometria, no por pantalla
+    b.style.transform="translate(-50%,-50%) translate("+(Math.cos(ang)*desp)+"px,"+(Math.sin(ang)*desp)+"px)";
     if(n<12)d.style.width="15%";
     cont.appendChild(d);
   });
@@ -1513,7 +1530,7 @@ function podio(){
       '<img class="ava-pod" src="'+AVATARES[avatares[j]].img+'" alt=""><b>'+escH(nom)+(enLinea&&j===yo?" <em>(vos)</em>":"")+'</b>'+
       '<div class="podio-pts">'+puntaje(j)+'<small>puntos</small></div>'+
       '<span class="podio-det">'+puntos[j]+(puntos[j]===1?" acierto":" aciertos")+' · '+fmtT(usado[j])+' de respuesta</span>'+
-      '<div class="peldano">'+(oro?"1°":"2°")+'</div></div>';};
+      '<span class="podio-pos">'+(oro?"1° puesto":"2° puesto")+'</span></div>';};
   return col(o[0],0)+col(o[1],1);
 }
 function cerrarJugada(resu){
@@ -1656,8 +1673,8 @@ function terminar(motivo){
   $("f-tiempo").textContent=fmtT(usado[enLinea?yo:0]+(enLinea||conBot||solo?0:usado[1]));
 
   cortarTiempo();
-  $("duelo").className="podio";$("duelo").style.display=(conBot||enLinea)?"flex":"none";
-  if(conBot||enLinea){$("duelo").innerHTML=podio();luego(lluviaLetras,400);}
+  $("duelo").className="podio";$("duelo").style.display=solo?"none":"flex";
+  if(!solo){$("duelo").innerHTML=podio();luego(lluviaLetras,400);}
   $("aportes").innerHTML=conBot
     ? "Resolviste <b>"+puntos[0]+"</b> conceptos y "+nombres[1]+" resolvió <b>"+puntos[1]+"</b>. Entre los dos cerraron <b>"+ok+"</b> de "+n+"."
     : nombres[0]+" aportó <b>"+puntos[0]+"</b> respuestas · "+nombres[1]+" aportó <b>"+puntos[1]+"</b> respuestas · juntos resolvieron <b>"+ok+"</b> conceptos.";
