@@ -569,6 +569,21 @@ input{font:inherit;color:inherit}
 .letra.acierto .badge{color:#FFFFFF}
 .letra.error .badge{color:#FF3B30}
 .letra.pasada .badge{color:#FFD93D}
+
+/* barra de la letra invisible cuando no corre (y su etiqueta tambien) */
+.barra-turno{visibility:hidden}
+.barra-turno.on{visibility:visible}
+.barra-turno:not(.on) i{transition:none!important;width:0!important}
+.barra-etq{opacity:0;transition:opacity .2s}
+.barra-etq.on{opacity:1}
+
+/* sorteo de turno */
+.sorteo{display:flex;align-items:center;justify-content:center;gap:34px}
+.sor-ava{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 30px;border-radius:30px;border:5px solid transparent;opacity:.45;transform:scale(.92);transition:all .15s}
+.sor-ava img{width:120px;height:120px;border-radius:50%;background:#fff;border:5px solid var(--tinta);object-fit:cover}
+.sor-ava b{font-family:"Lilita One";font-size:26px;color:var(--tinta2)}
+.sor-ava.on{opacity:1;transform:scale(1.08);border-color:var(--lima);background:rgba(76,183,0,.14);box-shadow:0 10px 26px rgba(76,183,0,.35)}
+.sor-txt{font-family:"Lilita One";font-size:34px;color:var(--tinta2);max-width:280px;text-align:center}
 </style>
 </head>
 <body>
@@ -661,6 +676,7 @@ input{font:inherit;color:inherit}
 <!-- ===== CUENTA REGRESIVA ===== -->
 <section class="pantalla" id="p-cuenta" data-fondo="juego">
  <div class="escena"><div class="tarjeta" style="left:50%;top:50%;transform:translate(-50%,-50%);width:760px;height:560px;display:grid;place-items:center;position:absolute">
+   <div id="sorteo" class="sorteo" style="display:none"><div class="sor-ava" id="sor-a0"></div><div class="sor-txt" id="sor-txt"></div><div class="sor-ava" id="sor-a1"></div></div>
    <div><div class="numero" id="numero">3</div><p id="empieza-quien" style="font-family:'Lilita One';font-size:34px;color:var(--tinta2);text-align:center"></p></div>
  </div></div>
 </section>
@@ -1304,7 +1320,7 @@ function nuevaPartida(){
   BOT.ok=ACIERTE_BOT[Math.floor(Math.random()*ACIERTE_BOT.length)];
   recuperacion=false;nRosco=sortearRosco();
   items=LETRAS.map(l=>{const p=POOL[l];return Object.assign({letra:l},p[Math.floor(Math.random()*p.length)]);});
-  iniciarRonda(ARRANQUES[nRosco],seg,Math.floor(Math.random()*2));   // sorteo: a veces empieza el estudiante, a veces el otro/Boti
+  window.__sorteoReal=true;iniciarRonda(ARRANQUES[nRosco],seg,Math.floor(Math.random()*2));   // sorteo: a veces empieza el estudiante, a veces el otro/Boti
 }
 function practicar(){
   recuperacion=true;items=pendientesRepaso.slice();
@@ -1372,11 +1388,11 @@ $("btn-listo").addEventListener("click",()=>{
   if(arranque){arranque=false;cuentaRegresiva();}else entrarAlJuego();
 });
 function cuentaRegresiva(){
-  mostrar("p-cuenta");$("empieza-quien").textContent=enLinea?(miTurno()?"Empezás vos":"Empieza "+nombreBonito(nombres[turno])):"Empieza "+nombres[turno];
+  mostrar("p-cuenta");sorteoAnim(()=>{$("empieza-quien").textContent=enLinea?(miTurno()?"Empezás vos":"Empieza "+nombreBonito(nombres[turno])):"Empieza "+nombres[turno];
   const pasos=["3","2","1","¡YA!"];let i=0;
   const paso=()=>{const n=$("numero");n.textContent=pasos[i];n.className="numero pop"+(i===3?" ya":"");n.offsetWidth;sCuenta(3-i);
     i++;i<pasos.length?luego(paso,850):luego(()=>{mostrar("p-juego");entrarAlJuego();},800);};
-  paso();
+  paso();});
 }
 function entrarAlJuego(){
   jugando=true;bloqueado=false;intentos=0;colorTurno();$("tablero").classList.remove("oculto");
@@ -1384,7 +1400,7 @@ function entrarAlJuego(){
   /* con lectura activa, nadie responde hasta que la voz termina la definición;
      sin lectura, se responde al instante */
   $("entrada").placeholder="Tu respuesta";
-  if(esBot()){habilitar(false);tIni=Date.now();jugadaBot();}
+  if(esBot()){habilitar(false);tIni=Date.now();arrancarReloj();jugadaBot();}
   else if(!miTurno()){habilitar(false);relojUI();verRival();}
   else if(lectura&&soportaVoz){habilitar(false);alTerminarVoz(()=>{if(jugando&&!esBot()&&miTurno()){habilitar(true);tIni=Date.now();arrancarReloj();arrancarLetra();luego(()=>$("entrada").focus(),120);}});}
   else{habilitar(true);tIni=Date.now();arrancarReloj();arrancarLetra();luego(()=>$("entrada").focus(),120);}
@@ -1541,7 +1557,7 @@ $("btn-cortar").addEventListener("click",()=>{
 const tieneTiempo=j=>sinReloj||recuperacion||(conBot&&j===1)||rel[j]>0;
 function relojUI(){
   [0,1].forEach(j=>{const e=$("tiempo"+j);if(!e)return;
-    const sinBanco=sinReloj||recuperacion||(conBot&&j===1);
+    const sinBanco=sinReloj||recuperacion;
     e.textContent=sinBanco?"∞":fmt(rel[j]);
     e.classList.toggle("urgente",!sinBanco&&rel[j]<=30&&rel[j]>0);
     e.classList.toggle("agotado",!sinBanco&&rel[j]<=0);
@@ -1551,7 +1567,7 @@ function relojUI(){
   $("tiempo1").parentNode.style.display=solo?"none":"";
 }
 function arrancarReloj(){
-  if(sinReloj||recuperacion||esBot()||!miTurno()){relojUI();return;}   // cada uno gasta solo su reloj
+  if(sinReloj||recuperacion||!miTurno()){relojUI();return;}   // cada uno gasta solo su reloj
   clearInterval(cron);const j=turno;relojUI();
   cron=setInterval(()=>{
     if(!jugando||bloqueado)return;
@@ -1584,15 +1600,15 @@ function segundosLetra(it){
 }
 function correrBarra(t){
   const b=$("barra-turno"),i=$("barra-turno-i");clearInterval(letraInt);
-  if(!t){b.classList.remove("on","urgente");return;}
-  letraFin=Date.now()+t*1000;b.classList.remove("urgente");b.classList.add("on");
+  if(!t){b.classList.remove("on","urgente");$("barra-turno-s").parentNode.classList.remove("on");return;}
+  letraFin=Date.now()+t*1000;b.classList.remove("urgente");b.classList.add("on");$("barra-turno-s").parentNode.classList.add("on");
   i.style.transition="none";i.style.width="100%";i.offsetWidth;
   i.style.transition="width "+t+"s linear";i.style.width="0%";
   const pinta=()=>{const q=Math.max(0,Math.ceil((letraFin-Date.now())/1000));$("barra-turno-s").textContent="Tiempo de la letra: "+q+" s";
     b.classList.toggle("urgente",q<=5);if(q<=0)clearInterval(letraInt);};
   pinta();letraInt=setInterval(pinta,250);
 }
-function pararLetra(){clearTimeout(letraT);clearInterval(letraInt);letraT=null;const b=$("barra-turno");if(b)b.classList.remove("on","urgente");}
+function pararLetra(){clearTimeout(letraT);clearInterval(letraInt);letraT=null;const b=$("barra-turno");if(b){b.classList.remove("on","urgente");$("barra-turno-s").parentNode.classList.remove("on");}}
 function arrancarLetra(){
   if(sinReloj||recuperacion||!jugando)return;
   const t=segundosLetra(items[idx]);correrBarra(t);
@@ -2344,6 +2360,28 @@ document.querySelectorAll("[data-full]").forEach(function(b){
 
 /* ícono de sonido pintado al cargar + la música respeta el silencio */
 pintarSonido();document.querySelectorAll('[data-son]').forEach(function(b){b.addEventListener('click',musicaPantalla);});
+
+/* ===== SORTEO: quien empieza, antes del 3-2-1 ===== */
+function sorteoAnim(cb){
+  const box=$("sorteo"),num=$("numero"),eq=$("empieza-quien");
+  if(!box||!window.__sorteoReal){cb();return;}
+  box.style.display="";num.style.visibility="hidden";eq.textContent="";
+  $("sor-a0").innerHTML=avaO(0)+'<b>'+escH(enLinea&&yo===0?"Vos":nombreBonito(nombres[0]))+'</b>';
+  $("sor-a1").innerHTML=avaO(1)+'<b>'+escH(enLinea&&yo===1?"Vos":(conBot?"Boti":nombreBonito(nombres[1])))+'</b>';
+  $("sor-txt").textContent="Sorteando quién empieza…";
+  let k=0;const tot=16+turno*1;
+  const paso=()=>{
+    const j=k%2;
+    $("sor-a0").classList.toggle("on",j===0);$("sor-a1").classList.toggle("on",j===1);
+    k++;
+    if(k<tot){luego(paso,80+k*10);}
+    else{
+      $("sor-a0").classList.toggle("on",turno===0);$("sor-a1").classList.toggle("on",turno===1);
+      $("sor-txt").textContent="Empieza "+(enLinea&&yo===turno?"¡vos!":(conBot&&turno===1?"Boti":nombreBonito(nombres[turno])));
+      luego(()=>{box.style.display="none";num.style.visibility="";cb();},1400);
+    }};
+  paso();
+}
 
 </script>
 </body>
