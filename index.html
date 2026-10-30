@@ -519,6 +519,8 @@ input{font:inherit;color:inherit}
 
 /* inicio: ocultar el recuadro de salas cuando no hay ninguna + botones superiores claros */
 .salas-abiertas:not(:has(.sala-item)){display:none}
+/* iconos al borde derecho libre: no tapar la cara del mono (inicio/sala) */
+#p-inicio .herr-sup,#p-sala .herr-sup{right:10px;top:20px}
 .herr-sup .ico-btn{width:64px;height:64px;background:rgba(255,255,255,.9);border:4px solid var(--tinta);color:var(--tinta2);
   box-shadow:0 5px 0 rgba(14,42,71,.45),inset 0 3px 0 #fff}
 .herr-sup .ico-btn svg{width:32px;height:32px}
@@ -1345,10 +1347,19 @@ function sortearRosco(){
   if(!libres.length){jugados=[];libres=todos.filter(n=>n!==nRosco);}
   const r=libres[Math.floor(Math.random()*libres.length)];jugados.push(r);return r;
 }
+const usadasGet=()=>{try{return JSON.parse(localStorage.getItem('bp_usadas')||'{}')}catch(e){return{}}};
+function sacarPalabra(l){   // sortea dentro de las palabras no usadas de esa letra
+  const p=POOL[l];let u=usadasGet()[l]||[];
+  let libres=p.map((w,i)=>i).filter(i=>u.indexOf(i)<0);
+  if(!libres.length){u=[];libres=p.map((w,i)=>i);}
+  const i=libres[Math.floor(Math.random()*libres.length)];u.push(i);
+  const all=usadasGet();all[l]=u;try{localStorage.setItem('bp_usadas',JSON.stringify(all))}catch(e){}
+  return Object.assign({letra:l},p[i]);
+}
 function nuevaPartida(){
   BOT.ok=ACIERTE_BOT[Math.floor(Math.random()*ACIERTE_BOT.length)];
   recuperacion=false;nRosco=sortearRosco();
-  items=LETRAS.map(l=>{const p=POOL[l];return Object.assign({letra:l},p[Math.floor(Math.random()*p.length)]);});
+  items=LETRAS.map(sacarPalabra);
   window.__sorteoReal=true;iniciarRonda(ARRANQUES[nRosco],seg,Math.floor(Math.random()*2));   // sorteo: a veces empieza el estudiante, a veces el otro/Boti
 }
 function practicar(){
@@ -1528,9 +1539,7 @@ function podio(){
     const nom=(enLinea||conBot)?nombreBonito(nombres[j]):nombres[j];
     return '<div class="podio-col '+(oro?"p1":"p2")+'" style="--c:var(--j'+(j+1)+')">'+medalla(oro)+
       '<img class="ava-pod" src="'+AVATARES[avatares[j]].img+'" alt=""><b>'+escH(nom)+(enLinea&&j===yo?" <em>(vos)</em>":"")+'</b>'+
-      '<div class="podio-pts">'+puntaje(j)+'<small>puntos</small></div>'+
-      '<span class="podio-det">'+puntos[j]+(puntos[j]===1?" acierto":" aciertos")+' · '+fmtT(usado[j])+' de respuesta</span>'+
-      '<span class="podio-pos">'+(oro?"1° puesto":"2° puesto")+'</span></div>';};
+      '<div class="podio-pts">'+puntaje(j)+'<small>puntos</small></div></div>';};
   return col(o[0],0)+col(o[1],1);
 }
 function cerrarJugada(resu){
