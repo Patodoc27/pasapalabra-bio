@@ -562,6 +562,13 @@ input{font:inherit;color:inherit}
 /* aire entre avatares y el separador del jugador 2 */
 #p-registro .j2{margin-top:26px;padding-top:22px}
 #p-registro .j2 .etq{margin-top:0}
+
+/* simbolos del rosco con contorno para que no se pierdan en el fondo */
+.letra .badge{-webkit-text-stroke:2px rgba(14,42,71,.95);
+  text-shadow:-2px -2px 0 rgba(14,42,71,.95),2px -2px 0 rgba(14,42,71,.95),-2px 2px 0 rgba(14,42,71,.95),2px 2px 0 rgba(14,42,71,.95),0 3px 0 rgba(14,42,71,.95);font-weight:900}
+.letra.acierto .badge{color:#FFFFFF}
+.letra.error .badge{color:#FF3B30}
+.letra.pasada .badge{color:#FFD93D}
 </style>
 </head>
 <body>
@@ -1354,7 +1361,7 @@ function overlayTurno(resu){
   $("ov-sub").textContent=enLinea?(miTurno()?"Tu turno":"Le toca a "+nombreBonito(nombres[turno])):solo?"Tu turno":conBot?(esBot()?"Le toca a Boti":"Tu turno"):(arranque?"Preparate para empezar":"Pasale el teclado");
   $("btn-listo").className="btn"+(turno===1?" dos":"");
   $("btn-listo").style.display=autoTurno()?"none":"";
-  $("overlay").classList.add("activo");
+  $("tablero").classList.toggle("oculto",arranque);$("overlay").classList.add("activo");
   pintar();
   if(autoTurno()) luego(()=>{$("overlay").classList.remove("activo");
     if(arranque){arranque=false;cuentaRegresiva();}else entrarAlJuego();},1100);
