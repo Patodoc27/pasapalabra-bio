@@ -535,19 +535,23 @@ input{font:inherit;color:inherit}
 .f-rank .pos{min-width:52px;text-align:center;flex:none}
 
 /* perfil enriquecido */
-.perfil-hist{margin-top:26px;width:100%}
-.hist-tit{font-family:"Lilita One";font-size:28px;color:var(--tinta2);margin-bottom:12px}
-.hist-filas{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.hist-pos{font-family:"Lilita One";font-size:18px;color:#fff;background:var(--uva2);border-radius:14px;padding:8px 14px;min-width:0}
+
+
+
+
 .perfil-stats{grid-template-columns:repeat(3,1fr)}
 @media(max-width:1400px){.perfil-stats{grid-template-columns:1fr 1fr}}
 
 /* perfil: que entre todo */
-#p-perfil .tarjeta{height:auto;max-height:870px;overflow:auto}
-.perfil-hist{grid-column:1/-1}
+#p-perfil .tarjeta{height:auto;overflow:visible}
+
 .perfil-stat b{font-size:38px;white-space:nowrap}
 .ring-wrap{width:240px}.ring-svg{width:240px;height:240px}
 .ring-c b{font-size:76px}
+
+/* registro más ancho: 7 avatares en una línea */
+#p-registro .tarjeta{left:480px;width:1340px}
+.overlay.cortina{background:rgba(255,255,255,.985)}
 </style>
 </head>
 <body>
@@ -1306,7 +1310,7 @@ function armarRosco(){
     d.innerHTML=it.letra+'<i class="badge" id="B'+i+'"></i>';
     d.style.left=(50+R*Math.cos(ang))+"%";d.style.top=(50+R*Math.sin(ang))+"%";
     const b=d.firstElementChild;   // el símbolo sale por el lado externo del anillo, nunca tapado
-    b.style.transform="translate(-50%,-50%) translate("+(Math.cos(ang)*7.6)+"cqw,"+(Math.sin(ang)*7.6)+"cqw)";
+    b.style.transform="translate(-50%,-50%) translate("+(Math.cos(ang)*4.0)+"cqw,"+(Math.sin(ang)*4.0)+"cqw)";
     if(n<12)d.style.width="15%";
     cont.appendChild(d);
   });
@@ -1336,7 +1340,7 @@ function overlayTurno(resu){
   $("ov-sub").textContent=enLinea?(miTurno()?"Tu turno":"Le toca a "+nombreBonito(nombres[turno])):solo?"Tu turno":conBot?(esBot()?"Le toca a Boti":"Tu turno"):(arranque?"Preparate para empezar":"Pasale el teclado");
   $("btn-listo").className="btn"+(turno===1?" dos":"");
   $("btn-listo").style.display=autoTurno()?"none":"";
-  $("tablero").classList.add("oculto");$("overlay").classList.add("activo");
+  $("overlay").classList.add("activo");
   pintar();
   if(autoTurno()) luego(()=>{$("overlay").classList.remove("activo");
     if(arranque){arranque=false;cuentaRegresiva();}else entrarAlJuego();},1100);
@@ -2222,7 +2226,7 @@ function pintarPerfil(){
   '<circle id="pf-ring" cx="100" cy="100" r="84" fill="none" stroke="url(#pfGrad)" stroke-width="20" stroke-linecap="round" stroke-dasharray="527.8" stroke-dashoffset="527.8" transform="rotate(-90 100 100)"/></svg>'+
   '<div class="ring-c"><b id="pf-nota">…</b><small>de 10</small></div></div>'+
   '<p class="camino-txt" id="pf-txt"></p><p class="camino-txt camino-sub" id="pf-fal"></p></div>'+
-  '<div class="perfil-hist"><h3 class="hist-tit">Últimas partidas</h3><div id="pf-hist" class="hist-filas"></div></div></div>';
+  '</div>';
  if(!rankingOn()){["pf-aci","pf-par","pf-mej","pf-pro","pf-pre","pf-err","pf-nota"].forEach(i=>$(i).textContent="—");$("pf-txt").textContent="La planilla aún no está conectada.";return;}
  fetch(RANKING_URL+"?top=400").then(r=>r.json()).then(lista=>{
   const mias=lista.filter(r=>normaRank(r.nombre)===normaRank(g.nombre)&&normaRank(r.seccion)===normaRank(g.seccion));
@@ -2235,12 +2239,6 @@ function pintarPerfil(){
   $("pf-aci").textContent=a;$("pf-par").textContent=p;$("pf-nota").textContent=nota;
   $("pf-mej").textContent=mejor;$("pf-pro").textContent=p?(a/p).toFixed(1):"0";
   $("pf-pre").textContent=pc==null?"—":pc+"%";$("pf-err").textContent=err+" · "+pas;
-  const hist=mias.slice().sort((x,y)=>(+new Date(y.inicio||0))-(+new Date(x.inicio||0))).slice(0,6);
-  $("pf-hist").innerHTML=hist.length?hist.map(r=>{
-   const t=new Date(r.inicio||0),f=isNaN(t)?"":" "+t.toLocaleDateString("es-AR",{day:"numeric",month:"short"});
-   return '<div class="f-rank"><span class="pos hist-pos">'+escH(r.modo||"·")+'</span>'+
-    '<span class="nom"><b>'+(r.aciertos||0)+' aciertos</b><small>'+(r.errores||0)+' errores · '+(r.pasadas||0)+' pasadas'+(r.porcentaje!=null?" · "+r.porcentaje+"%":"")+escH(f)+'</small></span></div>';}).join(""):
-   '<p class="rank-vacio" style="font-size:20px">Sin partidas registradas todavía.</p>';
   $("pf-ring").style.strokeDashoffset=(527.8*(1-Math.min(100,a)/100)).toFixed(1);
   $("pf-ring").style.transition="stroke-dashoffset 1.2s ease";
   $("pf-txt").textContent=nota>=10?"Calificación: 10 — ¡meta cumplida!":"Calificación actual: "+nota+" · cada 10 aciertos suman 1 punto.";
@@ -2293,7 +2291,7 @@ pintar=function(){__pintar();
     if(!items||!items.length){q.innerHTML="";return;}
     const it=items[idx];
     const quien=enLinea?(miTurno()?"Vos":nombreBonito(nombres[turno])):(conBot&&esBot()?"Boti":nombres[turno]);
-    q.innerHTML=avaO(turno)+'<span class="gl">'+it.letra+'</span><small>'+(it.m===E?"EMPIEZA CON":"CONTIENE LA")+'</small><b style="font-family:\'Lilita One\';font-size:30px;color:var(--tinta)">'+escH(quien)+'</b>';
+    q.innerHTML=avaO(turno)+'<span class="gl">'+it.letra+'</span><small>'+(it.m===E?"EMPIEZA CON":"CONTIENE LA")+'</small><b style="font-family:\'Lilita One\';font-size:34px;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.35)">'+escH(quien)+'</b>';
   }catch(e){}};
 
 /* ---------- musica de fondo: suena fuera del rosco ---------- */
