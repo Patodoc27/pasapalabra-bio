@@ -1113,7 +1113,11 @@ function leerConsigna(){
     u.rate=.96;u.pitch=1.1;
     u.onend=correrPendiente;u.onerror=correrPendiente;
     speechSynthesis.speak(u);
-    luego(()=>{if(items[idx]===it)correrPendiente();},Math.min(txt.length*110+5000,18000));  // respaldo si el habla no avisa
+    const finVoz=()=>{if(items[idx]!==it||!lectura)return;
+      if(speechSynthesis.speaking||speechSynthesis.pending)luego(finVoz,350);
+      else correrPendiente();};
+    luego(finVoz,500);
+    luego(()=>{if(items[idx]===it)correrPendiente();},60000);  // limite si el habla se cuelga
   },2200);
 }
 
