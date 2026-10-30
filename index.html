@@ -1589,8 +1589,8 @@ document.addEventListener("click",()=>{const mp=$("menu-pop");if(mp)mp.classList
 $("btn-cortar").addEventListener("click",()=>{
   if($("menu-pop"))$("menu-pop").classList.remove("abierto");
   if(confirm("¿Seguro que querés terminar?\nEl rosco queda cerrado con lo que respondieron hasta ahora.")){
-    if(enLinea){const m=nombreBonito(nombres[yo])+" terminó la partida antes de completar el rosco.";cortarTiempo();redEnviar("fin",{m:m,rel:rel,us:usado});terminar(m);}
-    else terminar("Cerraron la partida antes de completar el rosco.");}
+    if(enLinea){const m=nombreBonito(nombres[yo])+" terminó la partida antes de completar el rosco.";cortarTiempo();redEnviar("fin",{m:m,rel:rel,us:usado});terminar(m,false);}
+    else terminar("Cerraron la partida antes de completar el rosco.",false);}
 });
 
 /* ===== RELOJ ===== */
@@ -1666,7 +1666,7 @@ function porTiempo(){
 }
 
 /* ===== FINAL ===== */
-function terminar(motivo){
+function terminar(motivo,cuenta){
   if(!partidaViva&&enLinea)return;
   partidaViva=false;pararLetra();banda("");
   jugando=false;pararReloj();limpiarTimers();habilitar(false);sFin();
@@ -1716,7 +1716,7 @@ function terminar(motivo){
   $("btn-practicar").style.display=pendientesRepaso.length?"":"none";
   $("btn-practicar").textContent="Practicar las "+pendientesRepaso.length+" que costaron";
   redAlTerminar();
-  rankingEnviar().finally(rankingActualizar);   // anota la marca y refresca la tabla
+  if(cuenta!==false)rankingEnviar().finally(rankingActualizar);   // anota la marca solo si el rosco llego a su fin (completo o reloj agotado)
   mostrar("p-final");window.scrollTo({top:0,behavior:"smooth"});
 }
 /* mini rosco decorativo de la portada: las letras se dispersan y vuelven a cerrarse */
@@ -1976,7 +1976,7 @@ function redLiberar(){   // el host vuelve a esperar rival
   guardarSesion();pintarSala();
 }
 $("banda-btn").addEventListener("click",()=>{banda("");
-  if(enLinea&&partidaViva)terminar("Se cortó la conexión de "+(nombres[1-yo]||"tu rival")+".");});
+  if(enLinea&&partidaViva)terminar("Se cortó la conexión de "+(nombres[1-yo]||"tu rival")+".",false);});
 
 /* --- mensajes --- */
 function redMsg(ev,p){
@@ -2013,7 +2013,7 @@ function redMsg(ev,p){
   if(ev==="reloj"){if(!miTurno()&&typeof p.r==="number"){const j=p.j===1?1:0;rel[j]=p.r;relojUI();
     if(p.r<=10&&p.r>0)tic(true);}return;}
   if(ev==="tec"){if(!miTurno()&&jugando&&!bloqueado){$("entrada").value=String(p.v||"").replace(/[<>]/g,"").slice(0,40);rivalEscribe();}return;}
-  if(ev==="fin"){if(Array.isArray(p.rel))rel=[+p.rel[0]||0,+p.rel[1]||0];if(Array.isArray(p.us))usado=[+p.us[0]||0,+p.us[1]||0];if(partidaViva)terminar(String(p.m||"Partida terminada.").slice(0,120));return;}
+  if(ev==="fin"){if(Array.isArray(p.rel))rel=[+p.rel[0]||0,+p.rel[1]||0];if(Array.isArray(p.us))usado=[+p.us[0]||0,+p.us[1]||0];if(partidaViva)terminar(String(p.m||"Partida terminada.").slice(0,120),false);return;}
 }
 
 /* --- sala de espera --- */
@@ -2142,7 +2142,7 @@ function redAplicarEstado(p){
   usado=Array.isArray(p.us)?[+p.us[0]||0,+p.us[1]||0]:[0,0];
   rel=Array.isArray(p.rel)?[+p.rel[0]||0,+p.rel[1]||0]:[seg,seg];letraIni=String(p.li||"");arranque=false;relojUI();pintar();
   banda("");guardarSesion();
-  if(p.fin){limpiarTimers();terminar("Partida terminada.");}
+  if(p.fin){limpiarTimers();terminar("Partida terminada.",false);}
 }
 
 /* --- final: revancha, repaso a solas --- */
