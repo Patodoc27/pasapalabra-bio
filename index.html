@@ -498,6 +498,21 @@ input{font:inherit;color:inherit}
 .quien-c .gl{font-family:"Lilita One";font-size:150px;line-height:.95;color:#C8F55A;text-shadow:0 8px 0 rgba(0,0,0,.25)}
 .quien-c small{font-family:"Lilita One";font-size:28px;letter-spacing:2px;color:#9FE7FF}
 .numero.pop{animation:late .5s}
+
+/* inicio: ocultar el recuadro de salas cuando no hay ninguna + botones superiores claros */
+.salas-abiertas:not(:has(.sala-item)){display:none}
+.herr-sup .ico-btn{width:64px;height:64px;background:rgba(255,255,255,.9);border:4px solid var(--tinta);color:var(--tinta2);
+  box-shadow:0 5px 0 rgba(14,42,71,.45),inset 0 3px 0 #fff}
+.herr-sup .ico-btn svg{width:32px;height:32px}
+.herr-sup .ico-btn[aria-pressed="false"]{opacity:.75}
+
+/* registro: btn-jugar no es el JUGAR gigante del inicio */
+#p-registro #btn-jugar{position:static;transform:none;font-size:30px;line-height:1.15;padding:16px 48px;border-width:5px;
+  box-shadow:0 8px 0 var(--tinta),inset 0 5px 0 rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;gap:14px;
+  margin:12px auto 0;max-width:760px}
+#p-registro #btn-jugar:hover{transform:translateY(-3px)}
+#p-registro #btn-jugar:active{transform:translateY(4px);box-shadow:0 4px 0 var(--tinta),inset 0 5px 0 rgba(255,255,255,.4)}
+#p-registro #btn-jugar svg{width:38px;height:38px;flex:none}
 </style>
 </head>
 <body>
@@ -2216,6 +2231,16 @@ function musicaPantalla(){
 const __mus=new MutationObserver(musicaPantalla);
 document.querySelectorAll(".pantalla").forEach(function(s){__mus.observe(s,{attributes:true,attributeFilter:["class"]});});
 document.addEventListener("pointerdown",musicaPantalla);
+
+/* ---------- boton pantalla completa ---------- */
+const ICO_FULL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+document.querySelectorAll("[data-full]").forEach(function(b){
+  b.innerHTML=ICO_FULL;
+  b.addEventListener("click",function(){
+    if(document.fullscreenElement)document.exitFullscreen();
+    else if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(function(){});
+  });
+});
 
 </script>
 </body>
