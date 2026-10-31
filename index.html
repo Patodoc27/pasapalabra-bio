@@ -605,6 +605,16 @@ input{font:inherit;color:inherit}
 .sor-ava b{font-family:"Lilita One";font-size:26px;color:var(--tinta2)}
 .sor-ava.on{opacity:1;transform:scale(1.08);border-color:var(--lima);background:rgba(76,183,0,.14);box-shadow:0 10px 26px rgba(76,183,0,.35)}
 .sor-txt{font-family:"Lilita One";font-size:34px;color:var(--tinta2);max-width:280px;text-align:center}
+
+/* salas abiertas dentro del registro: en flujo, con scroll cuando hay varias */
+.salas-reg{display:none;margin-top:10px;max-height:250px;overflow-y:auto;
+  background:rgba(255,255,255,.9);border:3px solid var(--tinta);border-radius:20px;padding:8px 12px;
+  box-shadow:0 5px 0 rgba(14,42,71,.45)}
+.salas-reg:has(.sala-item){display:block}
+.salas-reg .salas-tit{display:block;font-family:"Lilita One";font-size:19px;color:var(--tinta2);margin:0 0 6px}
+.salas-reg .sala-item{font-size:18px;padding:5px 12px;margin-bottom:6px}
+.salas-reg .sala-item img{width:42px;height:42px}
+.salas-reg .sala-item b{font-size:24px}
 </style>
 </head>
 <body>
@@ -674,7 +684,8 @@ input{font:inherit;color:inherit}
         <div id="campo-sala">
           <p class="etq" style="margin-top:12px">Sala en línea</p>
           <label class="campo"><span data-ico="candado" style="color:var(--turq2)"></span><input type="text" id="cod-sala" placeholder="Código" maxlength="4" autocomplete="off" spellcheck="false"></label>
-          <p class="sala-nota">Vacío = creás una sala nueva. Si tu rival ya la creó, escribí su código o tocala en la lista del inicio.</p>
+          <p class="sala-nota">Vacío = creás una sala nueva. Si tu rival ya la creó, escribí su código o tocala acá abajo.</p>
+          <div class="salas-reg" id="salas-reg"></div>
         </div>
         <p class="etq" style="margin-top:10px">Reloj de cada jugador</p>
         <div class="relojes chips" id="chips-tiempo">
@@ -1847,9 +1858,11 @@ function lobbyAbrir(){if(red.lobby)return;
         red.lobby.enviar("sala-libre",{id:ID,c:red.sala,n:nombres[0],a:avatares[0],s:seccion,sg:seg});}});
   mantener();}
 function avisoSalaNueva(){
-  const ini=document.getElementById("p-inicio");if(!ini||!ini.classList.contains("activa"))return;
+  const ini=document.getElementById("p-inicio"),reg=document.getElementById("p-registro");
+  const enIni=ini&&ini.classList.contains("activa"),enReg=reg&&reg.classList.contains("activa");
+  if(!enIni&&!enReg)return;
   tono(784,.14,"triangle",.16);tono(1175,.16,"triangle",.16,.12);tono(1568,.3,"triangle",.16,.26);
-  const s=$("salas-abiertas");if(s){s.classList.remove("nueva");void s.offsetWidth;s.classList.add("nueva");setTimeout(()=>s.classList.remove("nueva"),1800);}
+  [enIni?$("salas-abiertas"):null,enReg?$("salas-reg"):null].forEach(s=>{if(s){s.classList.remove("nueva");void s.offsetWidth;s.classList.add("nueva");setTimeout(()=>s.classList.remove("nueva"),1800);}});
 }
 function mantener(){
   clearInterval(salaAnuncia);
@@ -1862,19 +1875,22 @@ function mantener(){
 function lobbyCerrar(){if(red.lobby&&!red.sala){red.lobby.salir();red.lobby=null;lobbyKeys={};anunciarOff();}}
 function anunciarOff(){clearInterval(salaAnuncia);salaAnuncia=null;}
 function pintarSalas(){
-  const cont=$("salas-abiertas");if(!cont)return;
+  const conts=[$("salas-abiertas"),$("salas-reg")].filter(Boolean);if(!conts.length)return;
   const mapa={};
   Object.keys(red.salas).forEach(k=>{const x=red.salas[k];if(x&&x.c&&x.id!==ID&&x.t&&Date.now()-x.t<45000)mapa[x.c]=x;});
   Object.keys(salasDir).forEach(c=>{const x=salasDir[c];if(x&&Date.now()-x.t<45000)mapa[c]=x;});
   const lista=Object.keys(mapa).map(k=>mapa[k]).sort((a,b)=>(b.t||0)-(a.t||0)).slice(0,12);
-  cont.innerHTML=lista.length?'<small class="salas-tit">Salas esperando rival</small>'+lista.map(x=>
+  const html=lista.length?'<small class="salas-tit">Salas esperando rival</small>'+lista.map(x=>
     '<button class="sala-item" type="button" data-c="'+escH(x.c)+'"><img src="'+AVATARES[avOk(x.a)].img+'" alt=""><span>'+escH(nombreBonito(limpiaNom(x.n)))+
     '<small>'+escH(limpiaSec(x.s))+' · '+nombreModo(x.sg)+'</small></span><b>'+escH(x.c)+'</b></button>').join("")
     :'<small class="salas-tit">Todavía no hay salas abiertas. Creá una y pasale el código a tu rival.</small>';
+  conts.forEach(cont=>cont.innerHTML=html);
 }
-$("salas-abiertas").addEventListener("click",e=>{const b=e.target.closest(".sala-item");if(!b)return;
+function tocarSala(e){const b=e.target.closest(".sala-item");if(!b)return;
   $("cod-sala").value=b.dataset.c;btnTxt(textoEntrar());
-  if($("n1").value.trim())$("btn-jugar").click();else{$("aviso").textContent="Escribí tu nombre y tocá «Entrar a la sala».";$("n1").focus();}});
+  if($("n1").value.trim())$("btn-jugar").click();else{$("aviso").textContent="Escribí tu nombre y tocá «Entrar a la sala».";$("n1").focus();}}
+$("salas-abiertas").addEventListener("click",tocarSala);
+$("salas-reg").addEventListener("click",tocarSala);
 
 function redEntrar(){
   const a=limpiaNom($("n1").value);
