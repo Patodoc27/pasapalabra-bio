@@ -607,7 +607,7 @@ input{font:inherit;color:inherit}
 .sor-txt{font-family:"Lilita One";font-size:34px;color:var(--tinta2);max-width:280px;text-align:center}
 
 /* salas abiertas dentro del registro: en flujo, con scroll cuando hay varias */
-.salas-reg{display:none;margin-top:10px;max-height:250px;overflow-y:auto;
+.salas-reg{display:none;margin-top:8px;max-height:196px;overflow-y:auto;
   background:rgba(255,255,255,.9);border:3px solid var(--tinta);border-radius:20px;padding:8px 12px;
   box-shadow:0 5px 0 rgba(14,42,71,.45)}
 .salas-reg:has(.sala-item){display:block}
@@ -615,6 +615,20 @@ input{font:inherit;color:inherit}
 .salas-reg .sala-item{font-size:18px;padding:5px 12px;margin-bottom:6px}
 .salas-reg .sala-item img{width:42px;height:42px}
 .salas-reg .sala-item b{font-size:24px}
+
+/* registro: columna derecha subida para aprovechar el espacio de arriba,
+   compactada para que entre entera con el boton EMPEZAR dentro de la tarjeta */
+#p-registro .form-cols>div:last-child{margin-top:-40px}
+#p-registro .modos{gap:9px}
+#p-registro .modos .opc{padding:10px 18px}
+#p-registro .sala-nota{margin:6px 0 4px}
+#p-registro .relojes{gap:9px}
+#p-registro .relojes .opc{padding:6px}
+#p-registro .pie-reg{margin-top:6px}
+#p-registro .aviso{min-height:24px;font-size:20px}
+
+/* reloj abajo de la columna izquierda, en el espacio libre */
+#campo-reloj{margin-top:22px}
 </style>
 </head>
 <body>
@@ -673,6 +687,14 @@ input{font:inherit;color:inherit}
           <label class="campo"><span data-ico="perfil" style="color:var(--rosa2)"></span><input type="text" id="n2" placeholder="Nombre y apellido" maxlength="28" autocomplete="off"></label>
           <div class="avs" id="avs-1"></div>
         </div>
+        <div id="campo-reloj">        <p class="etq" style="margin-top:6px">Reloj de cada jugador</p>
+        <div class="relojes chips" id="chips-tiempo">
+          <button class="opc chip" data-seg="360" aria-pressed="true"><b>Normal</b><small>6 min</small></button>
+          <button class="opc chip" data-seg="240" aria-pressed="false"><b>Intermedio</b><small>4 min</small></button>
+          <button class="opc chip" data-seg="120" aria-pressed="false"><b>Intenso</b><small>2 min</small></button>
+          <button class="opc chip" data-seg="0" aria-pressed="false"><b>Sin reloj</b><small>práctica</small></button>
+        </div>
+        </div>
       </div>
       <div>
         <p class="etq">¿Cómo jugás?</p>
@@ -682,17 +704,10 @@ input{font:inherit;color:inherit}
           <button class="opc chip" data-bot="1" aria-pressed="false"><span data-ico="boti"></span><span><b>Contra Boti</b><small>el robot rival</small></span></button>
         </div>
         <div id="campo-sala">
-          <p class="etq" style="margin-top:12px">Sala en línea</p>
+          <p class="etq" style="margin-top:8px">Sala en línea</p>
           <label class="campo"><span data-ico="candado" style="color:var(--turq2)"></span><input type="text" id="cod-sala" placeholder="Código" maxlength="4" autocomplete="off" spellcheck="false"></label>
           <p class="sala-nota">Vacío = creás una sala nueva. Si tu rival ya la creó, escribí su código o tocala acá abajo.</p>
           <div class="salas-reg" id="salas-reg"></div>
-        </div>
-        <p class="etq" style="margin-top:10px">Reloj de cada jugador</p>
-        <div class="relojes chips" id="chips-tiempo">
-          <button class="opc chip" data-seg="360" aria-pressed="true"><b>Normal</b><small>6 min</small></button>
-          <button class="opc chip" data-seg="240" aria-pressed="false"><b>Intermedio</b><small>4 min</small></button>
-          <button class="opc chip" data-seg="120" aria-pressed="false"><b>Intenso</b><small>2 min</small></button>
-          <button class="opc chip" data-seg="0" aria-pressed="false"><b>Sin reloj</b><small>práctica</small></button>
         </div>
       </div>
     </div>
