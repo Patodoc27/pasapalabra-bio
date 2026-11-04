@@ -1485,7 +1485,8 @@ function overlayTurno(resu){
   $("ov-sub").textContent=enLinea?(miTurno()?"Tu turno":"Le toca a "+nombreBonito(nombres[turno])):solo?"Tu turno":conBot?(esBot()?"Le toca a Boti":"Tu turno"):(arranque?"Preparate para empezar":"Pasale el teclado");
   $("btn-listo").className="btn"+(turno===1?" dos":"");
   $("btn-listo").style.display=autoTurno()?"none":"";
-  $("tablero").classList.toggle("oculto",arranque);$("overlay").classList.add("activo");
+  $("tablero").classList.toggle("oculto",arranque&&autoTurno());   // "De a dos": el botón "Listo" vive dentro del tablero, no se puede ocultar
+  $("overlay").classList.add("activo");
   pintar();
   if(autoTurno()) luego(()=>{$("overlay").classList.remove("activo");
     if(arranque){arranque=false;cuentaRegresiva();}else entrarAlJuego();},1100);
